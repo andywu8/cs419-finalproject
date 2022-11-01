@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button} from 'react-native';
 
 export default function App() {
   return (
+
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Button title="Signup with Google" onPress={() => navigation.navigate('Home')} />
+      <Button title="Login with Google" onPress={() => navigation.navigate('Home')} />
       <StatusBar style="auto" />
     </View>
   );
+
 }
 
 const styles = StyleSheet.create({
