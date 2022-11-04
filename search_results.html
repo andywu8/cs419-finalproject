@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+   <style>
+      table, th, td {
+        border:1px solid black;
+      }
+   </style>
+   <head>
+      <title>Search Results</title>
+   </head>
+   <body>
+      {% include 'header.html' %}
+      <h3>Course Search Form</h3>
+      <form action="search" method="get">
+        <label for="dept">Department:</label><br>
+        <input type="text" value="{{department}}" id="dept" name="Department">
+        <br>
+
+        <label for="course_num">Course Number:</label>
+        <br>
+        <input type="text" value="{{course_number}}" id="course_num" name="Course Number">
+        <br>
+
+        <label for="subj">Subject:</label>
+        <br>
+        <input type="text" value="{{subject}}" id="subj" name="Subject">
+        <br>
+
+        <label for="title">Title</label><br>
+        <input type="text" value="{{title}}" id="title" name="Title">
+        <br>
+
+        <input type="submit" value="Submit">
+        <br>
+      </form>
+      <br>
+      <h2>Course Search Results</h2>
+      <table style="width:100%">
+         <tr>
+           <th>CRN</th>
+           <th>Department Name</th>
+           <th>Subject Code</th>
+           <th>Course Number</th>
+           <th>Title</th>
+         </tr>
+
+         {% for course in courses: %}
+               <tr>
+               <td id="crn">{{course.get_crn()}}</td>
+               </td>
+               <td>{{course.get_dept_name()}}</td>
+               <td>{{course.get_subj_code()}}</td>
+               <td>{{course.get_course_num()}}</td>
+               <td>{{course.get_title()}}</td>
+               </tr>
+         {% endfor %}
+      <table>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      {% include 'footer.html' %}
+      <script src=
+         "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+      </script>
+
+      <script>
+         'use strict';
+         function setup(){
+            $('body').on('click', '#crn', function() {
+               let crn = $(this).text();
+               let url = '/details?crn=' + crn
+               window.location = url
+            });
+         }
+         $('document').ready(setup)
+      </script>
+   </body>
+</html>
