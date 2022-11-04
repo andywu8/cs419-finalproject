@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <link href="static/main.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <h1 style="text-align:center;">Mutuals</h1>
+        <div class="box">
+        <h1>Signup</h1>
+        <form action="signup" method="post">
+            <input type="text" name="firstname" id="firstname" placeholder="First Name" required/>
+            <br>
+            <input type="text" name="lastname" id="lastname" placeholder="Last Name" required/>
+            <br>
+            <input type="text" name="username" id="username" placeholder="Username" required/>
+            <br>
+            <input type="password" name="password" id="password" placeholder="Password" required/>
+            <input type="submit" class="button" value="Submit"/>
+            <br>
+        </form>
+    </div>
+
+    {%if users%}
+    <div class="users" style="margin-left:20%">
+      <h2>Registered Users List</h2>
+      <table style="width:100%;">
+        {%for user in users%}
+          <tr>
+            <td>{{user[0]}}</td>
+          </tr>
+        {%endfor%}
+      </table>
+    </div>
+    {%endif%}
+</body>
+</html>
