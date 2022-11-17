@@ -4,5 +4,25 @@
 </head>
 <body>
     <h1>Add Friends Page</h1>
+    {%if users%}
+    <div class="row">
+      <div class="column">
+        <h2>Users List 2</h2>
+        <form action="search" method="post">
+            <input type="text" name="name" id="name" placeholder="Name" required/>
+            <input type="submit" class="button" value="Submit"/>
+
+        </form>
+        <table>
+          {%for user in users%}
+            <tr>
+              <td>{{user[0]}}</td>
+            </tr>
+          {%endfor%}
+        </table>
+      </div>
+
+    </div>
+    {%endif%}
 </body>
 </html>

@@ -30,7 +30,9 @@ def signup():
 
 @app.route('/add_friends', methods=['POST','GET'])
 def add_friends():
-    return render_template('add_friends.html')
+    users = dbHandler.retrieveUsers()
+    return render_template('add_friends.html', users = users)
+
 
 @app.route('/inbox', methods=['POST','GET'])
 def inbox():
