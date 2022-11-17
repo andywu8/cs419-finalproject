@@ -8,26 +8,24 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method=='POST':
-        username = request.form['username']
-        password = request.form['password']
-        # dbHandler.insertUser(username, password)
-        # users = dbHandler.retrieveUsers()
         return render_template('index.html')
     else:
         return render_template('index.html')
 
 @app.route('/signup', methods=['POST','GET'])
 def signup():
+    error_messages = []
     if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
         firstname = request.form['firstname']
         lastname = request.form['lastname']
-        dbHandler.insertUser(firstname, lastname, username, password)
-        users = dbHandler.retrieveUsers()
-        return render_template('signup.html', users=users)
-    else:
-        return render_template('signup.html')
+        if dbHandler.checkUserExists(username) == False:
+            dbHandler.insertUser(firstname, lastname, username, password)
+        else:
+            error_messages.append("Username already exists")
+    users = dbHandler.retrieveUsers()
+    return render_template('signup.html', users = users, error_messages = error_messages)
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=8000)

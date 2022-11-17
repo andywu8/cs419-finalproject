@@ -5,6 +5,13 @@
 <body>
     <h1 style="text-align:center;">Mutuals</h1>
         <div class="box">
+          {%if error_messages%}
+          <div>
+            {% for error_msg in error_messages: %}
+            <p>{{error_msg}}</p>
+            {% endfor %}
+          </div>
+          {%endif%}
         <h1>Signup</h1>
         <form action="signup" method="post">
             <input type="text" name="firstname" id="firstname" placeholder="First Name" required/>
@@ -20,16 +27,30 @@
     </div>
 
     {%if users%}
-    <div class="users" style="margin-left:20%">
-      <h2>Registered Users List</h2>
-      <table style="width:100%;">
-        {%for user in users%}
-          <tr>
-            <td>{{user[0]}}</td>
-          </tr>
-        {%endfor%}
-      </table>
+    <div class="row">
+      <div class="column">
+        <h2>Registered Users List</h2>
+        <table>
+          {%for user in users%}
+            <tr>
+              <td>{{user[0]}}</td>
+            </tr>
+          {%endfor%}
+        </table>
+      </div>
+      <div class="column">
+        <h2>Users List 2</h2>
+        <table>
+          {%for user in users%}
+            <tr>
+              <td>{{user[0]}}</td>
+            </tr>
+          {%endfor%}
+        </table>
+      </div>
+
     </div>
     {%endif%}
+
 </body>
 </html>
