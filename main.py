@@ -27,5 +27,15 @@ def signup():
     users = dbHandler.retrieveUsers()
     return render_template('signup.html', users = users, error_messages = error_messages)
 
+
+@app.route('/add_friends', methods=['POST','GET'])
+def add_friends():
+    return render_template('add_friends.html')
+
+@app.route('/inbox', methods=['POST','GET'])
+def inbox():
+    return render_template('inbox.html')
+
+
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=8000)
