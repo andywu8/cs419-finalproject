@@ -32,8 +32,13 @@ def signup():
 def add_friends():
     current_user_username = "anwu8"
     if request.method=='POST':
-        friend_username = request.form['friend_username']
-        dbHandler.insertFriend(current_user_username, friend_username)
+        print("check")
+        user_username = request.form['user_username']
+        print("user username", user_username)
+        print("check after user username")
+        dbHandler.insertFriend(current_user_username, user_username)
+        print("check insert")
+
     friends = dbHandler.retrieveFriends(current_user_username)
     users = dbHandler.retrieveUsers()
     current_user_username = "test"

@@ -11,7 +11,7 @@
     {%if users%}
     <div class="row">
       <div class="column">
-        <h2>Users List 2</h2>
+        <h2>Users List</h2>
         <form action="search" method="get">
             <input type="search" name="name" id="name" placeholder="Username" required/>
             <input type="submit" class="button" value="Search"/>
@@ -20,8 +20,8 @@
           {%for user in users%}
             <div class="user_list">
                 <form action="add_friends" method="post">
-                    <p class="user_username">{{user[0]}}</p>
-                    <input type="submit" class="button" value="Add Friend"/>
+                    <p name="user_username" id="user_username">{{user[0]}}</p>
+                    <input type="submit" class="button" value="Submit"/>
                 </form>
             </div>
           {%endfor%}

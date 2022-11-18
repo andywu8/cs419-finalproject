@@ -1,12 +1,18 @@
 import sqlite3 as sql
 
-def insertFriend(current_user_username, friend_username):
+def insertFriend(username, friend):
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "INSERT INTO friends (primary_friend, username) VALUES (?, ?)"
-	cur.execute(query, (current_user_username, friend_username))
+	query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
+	print("check 1")
+	cur.execute(query, (username, friend))
+	print("check 2")
+	return_friends = cur.fetchall()
 	con.commit()
 	con.close()
+	print("check")
+	print("return_friends", return_friends)
+	return return_friends
 
 def retrieveFriends(current_user_username):
 	"""
@@ -14,7 +20,7 @@ def retrieveFriends(current_user_username):
 	"""
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "SELECT username FROM friends WHERE primary_friend = ?"
+	query = "SELECT username FROM friends WHERE username = ?"
 	cur.execute(query,[current_user_username])
 	users = cur.fetchall()
 	print(users)
@@ -70,7 +76,7 @@ def retrieveFriends(current_user_username):
 	"""
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "SELECT username FROM friends WHERE primary_friend = ?"
+	query = "SELECT username FROM friends WHERE username = ?"
 	cur.execute(query,[current_user_username])
 	users = cur.fetchall()
 	print(users)
