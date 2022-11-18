@@ -31,6 +31,8 @@ def signup():
 @app.route('/add_friends', methods=['POST','GET'])
 def add_friends():
     users = dbHandler.retrieveUsers()
+    current_user_username = "test"
+    friends = dbHandler.retrieveFriends(current_user_username)
     return render_template('add_friends.html', users = users)
 
 

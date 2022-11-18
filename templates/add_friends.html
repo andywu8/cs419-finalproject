@@ -1,5 +1,7 @@
 <html lang="en">
 <head>
+    <link href="static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
+
     <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
@@ -9,14 +11,17 @@
       <div class="column">
         <h2>Users List 2</h2>
         <form action="search" method="post">
-            <input type="text" name="name" id="name" placeholder="Name" required/>
+            <input type="text" name="name" id="name" placeholder="Username" required/>
             <input type="submit" class="button" value="Submit"/>
 
         </form>
         <table>
           {%for user in users%}
-            <tr>
-              <td>{{user[0]}}</td>
+            <tr class="friend_list"
+                <form class="add_friend" method="post">
+                    <p>{{user[0]}}</p>
+                    <input type="submit" class="button" value="Add Friend"/>
+                </form>
             </tr>
           {%endfor%}
         </table>

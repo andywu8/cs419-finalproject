@@ -35,3 +35,17 @@ def retrieveUsers():
 	print(users)
 	con.close()
 	return users
+
+
+def retrieveFriends(current_user_username):
+	"""
+	Get's a list of the current user's friends
+	"""
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT username FROM friends WHERE primary_friend = ?"
+	cur.execute(query,[current_user_username])
+	users = cur.fetchall()
+	print(users)
+	con.close()
+	return users
