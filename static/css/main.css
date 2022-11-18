@@ -46,3 +46,11 @@ input{
   margin-left: 25%;
   margin-right:25%;
 }
+
+table tbody tr.selected {
+  background-color: lightgray;
+}
+
+table tbody tr:hover {
+  border: 1px solid black;
+}
