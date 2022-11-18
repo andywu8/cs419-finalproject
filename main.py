@@ -7,8 +7,20 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
+    error_messages = []
+    confirmation_message = None
     if request.method=='POST':
-        return render_template('index.html')
+        username = request.form['username']
+        password = request.form['password']
+        if dbHandler.login(username, password) == True:
+            users = dbHandler.retrieveUsers()
+            
+            confirmation_message = "You are logged in! " + username
+
+        else:
+            error_messages.append("Incorrect username or password")
+        return render_template('index.html', users = users, error_messages = error_messages, confirmation_message = confirmation_message)
+
     else:
         return render_template('index.html')
 
@@ -33,15 +45,15 @@ def add_friends():
     current_user_username = "anwu8"
     if request.method=='POST':
         print("check")
-        user_username = request.form['user_username']
+        print("check 2")
+        user_username = "hardcoded username"
+        # user_username = request.form["user_username"]
         print("user username", user_username)
         print("check after user username")
         dbHandler.insertFriend(current_user_username, user_username)
         print("check insert")
 
-    friends = dbHandler.retrieveFriends(current_user_username)
     users = dbHandler.retrieveUsers()
-    current_user_username = "test"
     friends = dbHandler.retrieveFriends(current_user_username)
     return render_template('add_friends.html', users = users, friends=friends)
 

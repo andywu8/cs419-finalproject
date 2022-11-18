@@ -1,18 +1,28 @@
 import sqlite3 as sql
 
+def login(username, password):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT count(*) FROM users WHERE username = ? AND password = ?"
+	cur.execute(query, [username, password])
+	(num_users_with_username_and_password,) = cur.fetchone()
+	con.commit()
+	con.close()
+	print(num_users_with_username_and_password)
+	if num_users_with_username_and_password > 0:
+		return True 
+	else:
+		return False
+
 def insertFriend(username, friend):
 	con = sql.connect("database.db")
 	cur = con.cursor()
 	query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
-	print("check 1")
 	cur.execute(query, (username, friend))
-	print("check 2")
-	return_friends = cur.fetchall()
+	# return_friends = cur.fetchall()
 	con.commit()
 	con.close()
-	print("check")
-	print("return_friends", return_friends)
-	return return_friends
+
 
 def retrieveFriends(current_user_username):
 	"""
@@ -68,7 +78,6 @@ def retrieveUsers():
 	print(users)
 	con.close()
 	return users
-
 
 def retrieveFriends(current_user_username):
 	"""

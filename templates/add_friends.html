@@ -21,12 +21,13 @@
             <div class="user_list">
                 <form action="add_friends" method="post">
                     <p name="user_username" id="user_username">{{user[0]}}</p>
-                    <input type="submit" class="button" value="Submit"/>
+                    <input type="submit" class="button" value="Add Friend"/>
                 </form>
             </div>
           {%endfor%}
         </table>
-        <table>
+        <table> 
+          <h2>My Friends</h2>
           {%for friend in friends%}
             <div class="friend_list">
                 <p>{{friend[0]}}</p>
