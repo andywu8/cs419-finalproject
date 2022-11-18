@@ -10,8 +10,8 @@ drop table if exists users;
 
 drop table if exists friends;
     create table friends (
-    id integer primary key autoincrement,
-    primary_friend TEXT,
+    primary_friend text not null,
+    username text not null,
     PRIMARY KEY (primary_friend),
     FOREIGN KEY (username) references users(username)
 );

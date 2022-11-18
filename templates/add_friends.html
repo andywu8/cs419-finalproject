@@ -5,6 +5,8 @@
     <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
+    {% include "header.html" %}
+
     <h1>Add Friends Page</h1>
     {%if users%}
     <div class="row">
@@ -17,12 +19,12 @@
         </form>
         <table>
           {%for user in users%}
-            <tr class="friend_list"
+            <div class="friend_list">
                 <form class="add_friend" method="post">
                     <p>{{user[0]}}</p>
                     <input type="submit" class="button" value="Add Friend"/>
                 </form>
-            </tr>
+            </div>
           {%endfor%}
         </table>
       </div>
