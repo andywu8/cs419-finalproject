@@ -1,5 +1,34 @@
 import sqlite3 as sql
 
+def insertFriend(current_user_username, friend_username):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "INSERT INTO friends (primary_friend, username) VALUES (?, ?)"
+	cur.execute(query, (current_user_username, friend_username))
+	con.commit()
+	con.close()
+
+def retrieveFriends(current_user_username):
+	"""
+	Get's a list of the current user's friends
+	"""
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT username FROM friends WHERE primary_friend = ?"
+	cur.execute(query,[current_user_username])
+	users = cur.fetchall()
+	print(users)
+	con.close()
+	return users
+
+def retrieveUsernames(user_username):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT username FROM users WHERE username = ?"
+	cur.execute(query, [user_username])
+	con.commit()
+	con.close()
+
 def checkUserExists(username):
 	con = sql.connect("database.db")
 	cur = con.cursor()
@@ -14,8 +43,6 @@ def checkUserExists(username):
 		return True 
 	else:
 		return False
-
-
 
 def insertUser(firstname,lastname,username,password):
 	con = sql.connect("database.db")

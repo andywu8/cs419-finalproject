@@ -12,18 +12,24 @@
     <div class="row">
       <div class="column">
         <h2>Users List 2</h2>
-        <form action="search" method="post">
-            <input type="text" name="name" id="name" placeholder="Username" required/>
-            <input type="submit" class="button" value="Submit"/>
-
+        <form action="search" method="get">
+            <input type="search" name="name" id="name" placeholder="Username" required/>
+            <input type="submit" class="button" value="Search"/>
         </form>
         <table>
           {%for user in users%}
-            <div class="friend_list">
-                <form class="add_friend" method="post">
-                    <p>{{user[0]}}</p>
+            <div class="user_list">
+                <form action="add_friends" method="post">
+                    <p class="user_username">{{user[0]}}</p>
                     <input type="submit" class="button" value="Add Friend"/>
                 </form>
+            </div>
+          {%endfor%}
+        </table>
+        <table>
+          {%for friend in friends%}
+            <div class="friend_list">
+                <p>{{friend[0]}}</p>
             </div>
           {%endfor%}
         </table>
