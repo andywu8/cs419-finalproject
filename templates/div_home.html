@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <link href="static/css/home.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <div>
+    <div class="home_buttons" id="edit">
+        <p>Edit Profile Information</p>
+    </div>
+    <div class="home_buttons" id="play_matchmaker">
+        <p>Play Matchmaker</p>
+    </div>
+    <div class="home_buttons" id="add_friends">
+        <p>Add Friends</p>
+    </div>
+    <div class="home_buttons" id="see_matches">
+        <p>See Matches</p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    </script>
+    <script>
+       'use strict';
+       function setup(){
+          $('body').on('click', '.home_buttons', function() {
+             let page = $(this).text();
+             let url = '/' + page
+             window.location = url
+          });
+       }
+       $('document').ready(setup)
+    </script>
+</body>
+</html>

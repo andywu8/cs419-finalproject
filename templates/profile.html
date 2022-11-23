@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    {% include "/header.html" %}
+    <div class="form_holder">
+        <div class="profile_form">
+            <form action="{{ url_for('dashboard', username=username) }}" method="post">
+                <label for="residential_college">Residential College</label>
+                <select id="residential_college" name="residential_college">
+                    <option value="benjamin_franklin">Benjamin Franklin</option>
+                    <option value="berkeley">Berkeley</option>
+                    <option value="branford">Branford</option>
+                    <option value="davenport">Davenport</option>
+                    <option value="ezra_stiles">Ezra Stiles</option>
+                    <option value="grace_hopper">Grace Hopper</option>
+                    <option value="jonathan_edwards">Jonathan Edwards</option>
+                    <option value="morse">Morse</option>
+                    <option value="pauli_murray">Pauli Murray</option>
+                    <option value="saybrook">Saybrook</option>
+                    <option value="silliman">Siliman</option>
+                    <option value="timothy_dwight">Timothy Dwight</option>
+                    <option value="trumbull">Trumbull</option>
+                </select>
+                <br>
+                <label for="class_year">Class Year</label>
+                <select id="class_year" name="class_year">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                </select>
+                <br>
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nonbinary">Non-binary</option>
+                </select>
+                <br>
+                <label for="orientation">Sexual Orientation</label>
+                <select id="orientation" name="orientation">
+                    <option value="straight">Straight</option>
+                    <option value="gay">Gay</option>
+                    <option value="lesbion">Lesbion</option>
+                    <option value="bisexual">Bisexual</option>
+                </select>
+                <br>
+                <label for="match_preference">Match Me With</label>
+                <select id="match_preference" name="match_preference">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nonbinary">Non-binary</option>
+                </select>
+                <br>
+                <input type="submit" class="button" value="Submit"/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

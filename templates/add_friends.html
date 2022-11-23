@@ -1,42 +1,33 @@
 <html lang="en">
 <head>
-    <link href="static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
-
-    <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
     {% include "header.html" %}
+    <h1>Add Friends</h1>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th></th>
+        </tr>
+        {% for potential_friend in potential_friends: %}
+        <tr>
+            <td>{{potential_friend[1]}}</td>
+            <td>{{potential_friend[2]}}</td>
+            <td><button id="friend" value="{{potential_friend[0]}}" onclick="addFriend()" type="button">Add Friend</button></td>
+        </tr>
+        {% endfor %}
+    </table>
 
-    <h1>Add Friends Page</h1>
-    {%if users%}
-    <div class="row">
-      <div class="column">
-        <h2>Users List</h2>
-        <form action="search" method="get">
-            <input type="search" name="name" id="name" placeholder="Username" required/>
-            <input type="submit" class="button" value="Search"/>
-        </form>
-        <table>
-          {%for user in users%}
-            <div class="user_list">
-                <form action="add_friends" method="post">
-                    <p name="user_username" id="user_username">{{user[0]}}</p>
-                    <input type="submit" class="button" value="Add Friend"/>
-                </form>
-            </div>
-          {%endfor%}
-        </table>
-        <table> 
-          <h2>My Friends</h2>
-          {%for friend in friends%}
-            <div class="friend_list">
-                <p>{{friend[0]}}</p>
-            </div>
-          {%endfor%}
-        </table>
-      </div>
+    <script>
+        function addFriend() {
+          user_id = document.getElementById("friend").value
+          console.log(user_id)
+        }
+    </script>
 
-    </div>
-    {%endif%}
 </body>
 </html>

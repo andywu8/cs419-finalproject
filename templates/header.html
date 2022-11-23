@@ -1,14 +1,14 @@
-  
+
 <html lang="en">
 <head>
-    <link href="static/css/header.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/header.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-
     <div class="topnav">
     <a href="/">Match</a>
     <a href="inbox">Inbox</a>
-    <a href="add_friends">Add Friends</a>
+    <a href="{{ url_for('find_friends', username=username) }}">Find Friends</a>
+    <a href="{{ url_for('profile', username=username) }}">Edit Profile</a>
     </div>
 </body>
 </html>

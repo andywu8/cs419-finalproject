@@ -4,9 +4,13 @@ drop table if exists users;
     firstname text not null,
     lastname text not null,
     username text not null,
-    password text not null
+    password text not null,
+    college text,
+    class_year text,
+    gender text,
+    orientation text,
+    preference text
 );
-
 
 drop table if exists friends;
     create table friends (
@@ -23,7 +27,6 @@ drop table if exists inbox;
     matched_user text not null,
     FOREIGN KEY (username) references users(username)
 );
-
 
 drop table if exists inbox;
     create table inbox (

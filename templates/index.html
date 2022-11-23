@@ -3,17 +3,8 @@
     <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
     <body>
-      {% include "header.html" %}
       <h1 style="text-align:center;">Mutuals</h1>
     	<div class="box">
-        <p>{{confirmation_message}}</p>
-          {%if error_messages%}
-          <div>
-            {% for error_msg in error_messages: %}
-            <p>{{error_msg}}</p>
-            {% endfor %}
-          </div>
-          {%endif%}
   			<h1>Log In</h1>
   			<form action="/" method="post">
     			<input type="text" name="username" id="username" placeholder="Username" required/>
@@ -22,27 +13,17 @@
     			<br>
     			<input type="submit" class="button" value="Log In"/>
   			</form>
-
+        {%if error_messages%}
+          <div>
+            {% for error_msg in error_messages: %}
+            <p>{{error_msg}}</p>
+            {% endfor %}
+          </div>
+        {%endif%}
         <br>
         <form action="signup" method="get">
           <input type="submit" class="button" value="Create an Account"/>
         </form>
-      {%if users%}
-      <div class="row">
-        <div class="column">
-          <h2>Registered Users List</h2>
-          <table>
-            {%for user in users%}
-              <tr>
-                <td>{{user[0]}}</td>
-              </tr>
-            {%endfor%}
-          </table>
-        </div>
-      </div>
-      {%endif%}
 		</div>
-
-
 </body>
 </html>

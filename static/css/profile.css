@@ -1,0 +1,39 @@
+body {
+    background-color: pink;
+}
+
+label {
+    display: inline-block;
+    clear: left;
+    width: 250px;
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+select {
+  display: inline-block;
+  font-size: 16;
+  width: 200px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 200px;
+    background-color:palevioletred;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: palevioletred;
+}
