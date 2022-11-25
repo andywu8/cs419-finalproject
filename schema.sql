@@ -1,8 +1,8 @@
 drop table if exists users;
     create table users (
     id integer primary key autoincrement,
-    firstname text not null,
-    lastname text not null,
+    first_name text not null,
+    last_name text not null,
     username text not null,
     password text not null,
     college text,
@@ -11,6 +11,12 @@ drop table if exists users;
     orientation text,
     preference text
 );
+
+insert into users (first_name, last_name, username, password) VALUES ('dummy-Andy', 'Wu', 'dummy-andywu', 'andywu');
+insert into users (first_name, last_name, username, password) VALUES ('dummy-Allen', 'Chun', 'dummy-allenchun', 'allenchun');
+insert into users (first_name, last_name, username, password) VALUES ('dummy-Annette', 'Lee', 'dummy-annettelee', 'annettelee');
+insert into users (first_name, last_name, username, password) VALUES ('dummy-Kishan', 'Patel', 'dummy-kishanpatel', 'kishanpatel');
+
 
 drop table if exists friends;
     create table friends (
@@ -28,10 +34,3 @@ drop table if exists inbox;
     FOREIGN KEY (username) references users(username)
 );
 
-drop table if exists inbox;
-    create table inbox (
-    primary_friend text not null,
-    username text not null,
-    PRIMARY KEY (primary_friend),
-    FOREIGN KEY (username) references users(username)
-);

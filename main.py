@@ -61,13 +61,13 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
 
         user_exists = check_user_exists(username)
 
         if not user_exists:
-            insert_user(firstname, lastname, username, password)
+            insert_user(first_name, last_name, username, password)
             return redirect(url_for('dashboard', username=username))
         else:
             error_messages.append("Username already exists")
@@ -86,13 +86,15 @@ def find_friends(username):
 def add_friends(username):
     """add friends page"""
     if request.method == 'GET':
+        first_name = request.args.get('first_name')
+        last_name = request.args.get('last_name')
         residential_college = request.args.get('residential_college')
         class_year = request.args.get('class_year')
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
 
         potential_friends = retrieve_potential_friends(
-            username, residential_college, class_year, gender, orientation)
+            username, first_name, last_name, residential_college, class_year, gender, orientation)
         return render_template('add_friends.html', username=username, potential_friends=potential_friends)
     else:
         friend_username = request.args.get('friend_username')
