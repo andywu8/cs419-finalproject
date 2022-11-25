@@ -1,9 +1,11 @@
 <html lang="en">
 <head>
     <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
     {% include "/header.html" %}
+    <h1>Edit Your Profile Information</h1>
     <div class="form_holder">
         <div class="profile_form">
             <form action="{{ url_for('dashboard', username=username) }}" method="post">

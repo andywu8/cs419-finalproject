@@ -17,16 +17,33 @@
         <tr>
             <td>{{potential_friend[1]}}</td>
             <td>{{potential_friend[2]}}</td>
-            <td><button id="friend" value="{{potential_friend[0]}}" onclick="addFriend()" type="button">Add Friend</button></td>
+            <td>
+                <form method="post" action="{{url_for('add_friends', username=username, friend_username=potential_friend[0])}}">
+                    <button type="submit">Add Friend</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </table>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        function addFriend() {
-          user_id = document.getElementById("friend").value
-          console.log(user_id)
-        }
+       'use strict';
+       function setup(){
+        $('body').on('click', '#friend', function() {
+            var $row = $(this).closest("tr");
+            var first_name = $row.find("td:nth-child(1)").text();
+            var last_name = $row.find("td:nth-child(2)").text();
+
+            console.log(first_name);
+            console.log(last_name);
+            console.log(username)
+
+            //let url = '/add_friend_to_user/' + username '?first_name=' + first_name + '&last_name=' + last_name;
+            //window.location = url
+          });
+       }
+       $('document').ready(setup)
     </script>
 
 </body>

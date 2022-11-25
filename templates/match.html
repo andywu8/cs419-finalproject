@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <link href="/static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    {% include "header.html" %}
+    <h1>Match Two Friends</h1>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th></th>
+        </tr>
+        {% for friend in my_friends: %}
+        <tr>
+            <td>{{friend[0]}}</td>
+            <td>{{friend[1]}}</td>
+            <td>
+                <form method="post" action="{{url_for('match', username=username, friend_username=friend[2])}}">
+                    <button type="submit">Find Potential Matches</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
