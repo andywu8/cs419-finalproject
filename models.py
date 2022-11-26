@@ -14,6 +14,23 @@ def login(username, password):
     else:
         return False
 
+def match_users(username, user1, user2):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "INSERT INTO inbox (username, matched_user1, matched_user2, inbox_message) VALUES (?, ?, ?, ?)"
+	cur.execute(query, [username, user1, user2, "You've been matched"])
+	con.commit()
+	con.close()
+
+def insert_dummy_users():
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)"
+	args = ["John", "Doe", "jdoe", "password", "John1", "Doe1", "jdoe", "password", "John2", "Doe2", "jdoe2", "password"]
+	cur.execute(query, args)
+	con.commit()
+	con.close()
+	print("check")
 
 def insert_friend(username, friend):
     con = sql.connect("database.db")
@@ -24,7 +41,7 @@ def insert_friend(username, friend):
     con.close()
 
 
-def retrieve_potential_friends(username, residential_college, class_year, gender, orientation):
+def retrieve_potential_friends(username, first_name, last_name, residential_college, class_year, gender, orientation):
     con = sql.connect("database.db")
     cur = con.cursor()
     args = []
@@ -38,9 +55,19 @@ def retrieve_potential_friends(username, residential_college, class_year, gender
     if orientation == 'any':
         orientation = None
 
-    query = "SELECT username, firstname, lastname FROM users "
-    if residential_college or class_year or gender or orientation:
+    query = "SELECT username, first_name, last_name FROM users "
+    if first_name or last_name or residential_college or class_year or gender or orientation:
         query += "WHERE "
+        if first_name:
+            query += "LOWER(first_name) LIKE ? "
+            args.append(first_name.lower() + '%')
+            if last_name or residential_college or class_year or gender or orientation:
+                query += "AND "
+        if last_name:
+            query += "LOWER(last_name) LIKE ? "
+            args.append(last_name.lower() + '%')
+            if residential_college or class_year or gender or orientation:
+                query += "AND "
         if residential_college:
             query += "college = ? "
             args.append(residential_college)
@@ -64,6 +91,9 @@ def retrieve_potential_friends(username, residential_college, class_year, gender
         query += "WHERE username != ? "
 
     args.append(username)
+    print("args: ", args)
+    print("query", query)
+
     cur.execute(query, args)
     friends = []
     row = cur.fetchone()
@@ -99,11 +129,11 @@ def check_user_exists(username):
         return False
 
 
-def insert_user(firstname, lastname, username, password):
+def insert_user(first_name, last_name, username, password):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)"
-    cur.execute(query, (firstname, lastname, username, password))
+    query = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?)"
+    cur.execute(query, (first_name, last_name, username, password))
     con.commit()
     con.close()
 
@@ -139,7 +169,7 @@ def add_friend(username, friend_username):
 def get_my_friends(username):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT firstname, lastname, username from users WHERE username IN (SELECT friend from friends WHERE username = ?)"
+    query = "SELECT first_name, last_name, username from users WHERE username IN (SELECT friend from friends WHERE username = ?)"
     cur.execute(query, [username])
     friends = []
     row = cur.fetchone()
@@ -154,7 +184,7 @@ def get_my_friends(username):
 def get_potential_matches(friend_username):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT firstname, lastname, username from users WHERE gender IN (SELECT preference from users WHERE username = ?)"
+    query = "SELECT first_name, last_name, username from users WHERE gender IN (SELECT preference from users WHERE username = ?)"
     cur.execute(query, [friend_username])
     matches = cur.fetchall()
     con.close()

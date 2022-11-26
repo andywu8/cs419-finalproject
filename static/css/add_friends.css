@@ -7,3 +7,11 @@
     border-radius: 5px;
     border: 2px solid black;
 }
+
+.friend_form {
+    margin: auto;
+    width: 80%;
+    border: 2px solid black;
+    padding:5px;
+}
+

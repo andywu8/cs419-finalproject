@@ -1,0 +1,7 @@
+table tr.selected {
+    background-color: lightgray;
+}
+
+table tr:hover td {
+    border: 1px solid black;
+}

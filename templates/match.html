@@ -1,8 +1,11 @@
 <html lang="en">
+<!DOCTYPE html>
 <head>
     <link href="/static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
     <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
     <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/css/match.css" rel="stylesheet" type="text/css" media="all">
+
 </head>
 <body>
     {% include "header.html" %}
@@ -14,16 +17,69 @@
             <th></th>
         </tr>
         {% for friend in my_friends: %}
+        <h2>Friend 1</h2>
         <tr>
             <td>{{friend[0]}}</td>
             <td>{{friend[1]}}</td>
             <td>
                 <form method="post" action="{{url_for('match', username=username, friend_username=friend[2])}}">
-                    <button type="submit">Find Potential Matches</button>
+                    <button type="submit">Select</button>
                 </form>
             </td>
         </tr>
         {% endfor %}
     </table>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th></th>
+        </tr>
+        <h2>Friend 2</h2>
+        {% for friend in my_friends: %}
+        <tr>
+            <td>{{friend[0]}}</td>
+            <td>{{friend[1]}}</td>
+            <td>
+                <form method="post" action="{{url_for('match', username=username, friend_username=friend[2])}}">
+                    <button type="submit">Select</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button onclick="match()">Match</button>
+    <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    'use strict';
+
+    function get_match_results(match1, match2) {
+        $.ajax({
+            url: '/match',
+            type: 'POST',
+            data: {
+                'username': '{{username}}',
+                'match1': match1,
+                'match2': match2
+                });
+
+    function setup()
+        {
+            $('body').on('click', 'tr', function() {
+                $('tr').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        }
+    function match()
+        {
+            var match1 = $('tr.selected').find('td:first').text();
+            var match2 = $('tr.selected').find('td:first').text();
+            get_match_results(match1, match2);
+        }
+    }
+    $('document').ready(setup);
+
+    </script>
 </body>
 </html>

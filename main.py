@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, redirect, url_for
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users
 
 app = Flask(__name__)
 
@@ -13,6 +13,7 @@ def home():
     users = None
     confirmation_message = None
 
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -20,6 +21,7 @@ def home():
         correct_login = login(username, password)
         if correct_login:
             users = retrieve_users()
+            print("users", users)
             return redirect(url_for('dashboard', username=username))
         else:
             error_messages.append("Incorrect username or password")
@@ -59,20 +61,23 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
+        # insert_dummy_users()
+
         username = request.form['username']
         password = request.form['password']
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
 
         user_exists = check_user_exists(username)
 
         if not user_exists:
-            insert_user(firstname, lastname, username, password)
+            insert_user(first_name, last_name, username, password)
             return redirect(url_for('dashboard', username=username))
         else:
             error_messages.append("Username already exists")
 
     users = retrieve_users()
+    print("users", users)
     return render_template('signup.html', users=users, error_messages=error_messages)
 
 
@@ -86,13 +91,14 @@ def find_friends(username):
 def add_friends(username):
     """add friends page"""
     if request.method == 'GET':
+        first_name = request.args.get('first_name')
+        last_name = request.args.get('last_name')
         residential_college = request.args.get('residential_college')
         class_year = request.args.get('class_year')
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
-
         potential_friends = retrieve_potential_friends(
-            username, residential_college, class_year, gender, orientation)
+            username, first_name, last_name, residential_college, class_year, gender, orientation)
         return render_template('add_friends.html', username=username, potential_friends=potential_friends)
     else:
         friend_username = request.args.get('friend_username')
@@ -113,6 +119,7 @@ def match(username):
         my_friends = get_my_friends(username)
         return render_template('match.html', username=username, my_friends=my_friends)
     else:
+        # match_users()
         my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
