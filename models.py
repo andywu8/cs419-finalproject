@@ -14,6 +14,23 @@ def login(username, password):
     else:
         return False
 
+def match_users(username, user1, user2):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "INSERT INTO inbox (username, matched_user1, matched_user2, inbox_message) VALUES (?, ?, ?, ?)"
+	cur.execute(query, [username, user1, user2, "You've been matched"])
+	con.commit()
+	con.close()
+
+def insert_dummy_users():
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)"
+	args = ["John", "Doe", "jdoe", "password", "John1", "Doe1", "jdoe", "password", "John2", "Doe2", "jdoe2", "password"]
+	cur.execute(query, args)
+	con.commit()
+	con.close()
+	print("check")
 
 def insert_friend(username, friend):
     con = sql.connect("database.db")
@@ -42,13 +59,13 @@ def retrieve_potential_friends(username, first_name, last_name, residential_coll
     if first_name or last_name or residential_college or class_year or gender or orientation:
         query += "WHERE "
         if first_name:
-            query += "first_name = ?% "
-            args.append(first_name)
+            query += "LOWER(first_name) = ? "
+            args.append(first_name.lower() + '%')
             if last_name or residential_college or class_year or gender or orientation:
                 query += "AND "
         if last_name:
-            query += "last_name = ?% "
-            args.append(last_name)
+            query += "LOWER(last_name) = ? "
+            args.append(last_name.lower() + '%')
             if residential_college or class_year or gender or orientation:
                 query += "AND "
         if residential_college:
