@@ -109,7 +109,11 @@ def add_friends(username):
 @app.route('/inbox', methods=['POST', 'GET'])
 def inbox():
     """inbox page"""
-    return render_template('inbox.html')
+    # format for dummy data
+    # [matched_user1, matched_user2, matched_boolean]
+    dummy_inbox_data = [["anwu8", "anwu888", None]]
+
+    return render_template('inbox.html', inbox_data = dummy_inbox_data)
 
 
 @app.route('/match/<username>', methods=['POST', 'GET'])
