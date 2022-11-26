@@ -111,8 +111,9 @@ def inbox():
     """inbox page"""
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
-    dummy_inbox_data = [["anwu8", "anwu888", None]]
-
+    # make sure the user names are actually real usernames: these are just for example
+    # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
+    dummy_inbox_data = []
     return render_template('inbox.html', inbox_data = dummy_inbox_data)
 
 
