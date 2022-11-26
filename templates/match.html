@@ -17,8 +17,8 @@
             <th></th>
         </tr>
         {% for friend in my_friends: %}
+        <h2>Friend 1</h2>
         <tr>
-            <h2>Friend 1</h2>
             <td>{{friend[0]}}</td>
             <td>{{friend[1]}}</td>
             <td>
@@ -35,9 +35,9 @@
             <th>Last Name</th>
             <th></th>
         </tr>
+        <h2>Friend 2</h2>
         {% for friend in my_friends: %}
         <tr>
-            <h2>Friend 2</h2>
             <td>{{friend[0]}}</td>
             <td>{{friend[1]}}</td>
             <td>
@@ -67,7 +67,7 @@
     function setup()
         {
             $('body').on('click', 'tr', function() {
-                $('tbody tr').removeClass('selected');
+                $('tr').removeClass('selected');
                 $(this).addClass('selected');
             }
         }

@@ -59,12 +59,12 @@ def retrieve_potential_friends(username, first_name, last_name, residential_coll
     if first_name or last_name or residential_college or class_year or gender or orientation:
         query += "WHERE "
         if first_name:
-            query += "LOWER(first_name) = ? "
+            query += "LOWER(first_name) LIKE ? "
             args.append(first_name.lower() + '%')
             if last_name or residential_college or class_year or gender or orientation:
                 query += "AND "
         if last_name:
-            query += "LOWER(last_name) = ? "
+            query += "LOWER(last_name) LIKE ? "
             args.append(last_name.lower() + '%')
             if residential_college or class_year or gender or orientation:
                 query += "AND "
