@@ -32,14 +32,14 @@
     <script>
         'use strict';
 
-        function get_match_results(match1, match2) {
+        function get_match_results(match1_username, match2_username) {
             let request = null;
             request = $.ajax({
                 url: '/match/{{username}}',
                 type: 'POST',
                 data: {
-                    'match1': match1,
-                    'match2': match2
+                    'match1_username': match1_username,
+                    'match2_username': match2_username
                 }
             });
         }
@@ -47,12 +47,10 @@
         function match() {
             console.log("does it get here");
             var e = document.getElementById("myform-friend1");
-            var match1 = e.options[e.selectedIndex].value;
+            var match1_username = e.options[e.selectedIndex].value;
             var e = document.getElementById("myform-friend2");
-            var match2 = e.options[e.selectedIndex].value;
-            console.log(match1);
-            console.log(match2);
-            get_match_results(match1, match2);
+            var match2_username = e.options[e.selectedIndex].value;
+            get_match_results(match1_username, match2_username);
         }
     $('document').ready(setup);
 

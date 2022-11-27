@@ -61,7 +61,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        # insert_dummy_users()
+        insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -124,22 +124,12 @@ def match(username):
         my_friends = get_my_friends(username)
         return render_template('match.html', username=username, my_friends=my_friends)
     else:
-        # match_users()
-        # data = cgi.FieldStorage()
-        # username = data['username'].value
-        # print("returned username", username)
-        click = request.form['data']
-        print("returned click", click)
-        # match1 = request.args.get['match1']
-        # print("match1", match1)
-        # match1 = data['match1'].value
-        # print("returned match1 ", match1)
-        # match2 = data['match2'].value
-        # print("Returned match 2", match2)
+        match1_username = request.form['match1_username']
+        print("match1_username", match1_username)
+        match2_username = request.form['match2_username']
+        print("match2_username", match2_username)
+        match_users(username, match1_username, match2_username)
 
-        # as_dict = request.form.getlist('myform')
-        print("check that this works")
-        # print (request)
         my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
