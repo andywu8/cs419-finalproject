@@ -125,6 +125,8 @@ def match(username):
         return render_template('match.html', username=username, my_friends=my_friends)
     else:
         # match_users()
+        as_dict = request.form.getlist('myform')
+        print (request)
         my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
