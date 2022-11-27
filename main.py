@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users
-
+import cgi #https://stackoverflow.com/questions/27046448/get-post-data-from-ajax-post-request-in-python-file
 app = Flask(__name__)
 
 
@@ -125,8 +125,21 @@ def match(username):
         return render_template('match.html', username=username, my_friends=my_friends)
     else:
         # match_users()
-        as_dict = request.form.getlist('myform')
-        print (request)
+        # data = cgi.FieldStorage()
+        # username = data['username'].value
+        # print("returned username", username)
+        click = request.form['data']
+        print("returned click", click)
+        # match1 = request.args.get['match1']
+        # print("match1", match1)
+        # match1 = data['match1'].value
+        # print("returned match1 ", match1)
+        # match2 = data['match2'].value
+        # print("Returned match 2", match2)
+
+        # as_dict = request.form.getlist('myform')
+        print("check that this works")
+        # print (request)
         my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
