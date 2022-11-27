@@ -1,10 +1,10 @@
 """main file to run flask app"""
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info
 
 app = Flask(__name__)
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -110,7 +110,11 @@ def signup():
 
 @app.route('/find_friends/<username>', methods=['POST', 'GET'])
 def find_friends(username):
-    """add friends page"""
+    """find friends page"""
+    dict_info = retrieve_profile_info(username)
+    if dict_info["number"] == None:
+        flash("SET UP PROFILE FIRST!", category="error")
+        return redirect(url_for('profile', username=username))
     return render_template('find_friends.html', username=username)
 
 
@@ -133,9 +137,14 @@ def add_friends(username):
         return render_template('add_friends.html', username=username)
 
 
-@app.route('/inbox', methods=['POST', 'GET'])
-def inbox():
+@app.route('/inbox/<username>', methods=['POST', 'GET'])
+def inbox(username):
     """inbox page"""
+    dict_info = retrieve_profile_info(username)
+    if dict_info["number"] == None:
+        flash("SET UP PROFILE FIRST!", category="error")
+        return redirect(url_for('profile', username=username))
+
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
     # make sure the user names are actually real usernames: these are just for example
@@ -147,6 +156,11 @@ def inbox():
 @app.route('/match/<username>', methods=['POST', 'GET'])
 def match(username):
     """match page"""
+    dict_info = retrieve_profile_info(username)
+    if dict_info["number"] == None:
+        flash("SET UP PROFILE FIRST!", category="error")
+        return redirect(url_for('profile', username=username))
+
     if request.method == "GET":
         my_friends = get_my_friends(username)
         return render_template('match.html', username=username, my_friends=my_friends)
