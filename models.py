@@ -13,6 +13,14 @@ def login(username, password):
         return True
     else:
         return False
+def update_matched_boolean(username, user1, user2, matched_boolean):
+	# update the inbox table to set the matched_boolean to true
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "UPDATE inbox SET matched_boolean = ? WHERE username = ? AND matched_user1 = ? AND matched_user2 = ?"
+	cur.execute(query, [matched_boolean, username, user1, user2])
+	con.commit()
+	con.close()
 
 def match_users(username, user1, user2):
 	con = sql.connect("database.db")
