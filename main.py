@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, redirect, url_for
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -204,6 +204,12 @@ def match(username):
         potential_matches = get_potential_matches(friend_username)
         print(potential_matches)
         return render_template('match.html', username=username, my_friends=my_friends)
+
+@app.route('/inbox/<username>', methods=['POST', 'GET'])
+def inbox(username):
+    """inbox page"""
+    my_matches = get_matches_in_inbox(username)
+    return render_template('inbox.html', username=username, my_matches=my_matches)
 
 
 if __name__ == '__main__':
