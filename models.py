@@ -215,3 +215,12 @@ def get_potential_matches(friend_username):
     matches = cur.fetchall()
     con.close()
     return matches
+
+def get_matches_in_inbox(username):
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT matched_user1, matched_user2 WHERE username = ?"
+	cur.execute(query, [username])
+	matches = cur.fetchall()
+	con.close()
+	return matches
