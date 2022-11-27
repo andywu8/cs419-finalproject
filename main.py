@@ -93,7 +93,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        insert_dummy_users()
+        # insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
