@@ -37,3 +37,7 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: palevioletred;
 }
+
+input[type=phone_number] {
+    margin-left: 0px;
+}

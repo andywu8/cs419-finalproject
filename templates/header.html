@@ -1,14 +1,17 @@
 
 <html lang="en">
-<head>
-    <link href="/static/css/header.css" rel="stylesheet" type="text/css" media="all">
-</head>
-<body>
-    <div class="topnav">
-    <a href="{{ url_for('match', username=username) }}">Match</a>
-    <a href="inbox">Inbox</a>
-    <a href="{{ url_for('find_friends', username=username) }}">Find Friends</a>
-    <a href="{{ url_for('profile', username=username) }}">Edit Profile</a>
-    </div>
-</body>
+    <head>
+        <link href="/static/css/header.css" rel="stylesheet" type="text/css" media="all">
+    </head>
+    <body>
+        <div class="topnav">
+            <a href="{{ url_for('match', username=username) }}">Match</a>
+            <a href="{{ url_for('inbox', username=username) }}">Inbox</a>
+            <a href="{{ url_for('find_friends', username=username) }}">Find Friends</a>
+            <a href="{{ url_for('profile', username=username) }}">Edit Profile</a>
+            <div class="topnav-right">
+                <a href="index">Logout</a>
+            </div>
+        </div>
+    </body>
 </html>

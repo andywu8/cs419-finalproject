@@ -5,6 +5,7 @@ drop table if exists users;
     last_name text not null,
     username text not null,
     password text not null,
+    phone_number text,
     college text,
     class_year text,
     gender text,
