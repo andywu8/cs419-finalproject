@@ -205,12 +205,6 @@ def match(username):
         print(potential_matches)
         return render_template('match.html', username=username, my_friends=my_friends)
 
-@app.route('/inbox/<username>', methods=['POST', 'GET'])
-def inbox(username):
-    """inbox page"""
-    my_matches = get_matches_in_inbox(username)
-    return render_template('inbox.html', username=username, my_matches=my_matches)
-
 
 if __name__ == '__main__':
     """runs the application on a server"""
