@@ -142,7 +142,7 @@ def add_friends(username):
 def inbox(username):
     """inbox page"""
     if request.method == 'GET':
-        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
         return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
     else:
         match_status = request.form['Status']
@@ -150,7 +150,7 @@ def inbox(username):
         match_user = request.form['potential_match']
         print(match_user)
         #update the database accept/decline status to either True or False for that match username
-        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
         return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
 
     # format for dummy data
