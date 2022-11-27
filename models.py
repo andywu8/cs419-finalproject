@@ -219,8 +219,17 @@ def get_potential_matches(friend_username):
 def get_matches_in_inbox(username):
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "SELECT matched_user1, matched_user2 WHERE username = ?"
+	query = "SELECT matched_user1, matched_boolean from inbox WHERE matched_user2 = ?"
 	cur.execute(query, [username])
 	matches = cur.fetchall()
 	con.close()
+
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "SELECT matched_user2, matched_boolean from inbox WHERE matched_user1 = ?"
+	cur.execute(query, [username])
+	matches += cur.fetchall()
+	print(matches)
+	con.close()
+
 	return matches
