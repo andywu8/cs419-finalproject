@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
@@ -15,19 +16,19 @@
                 <input type="phone_number" name="phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="{{ number|default("000-000-0000", true) }}"><br /><br />
                 <label for="residential_college">Residential College</label>
                 <select id="residential_college" name="residential_college" value="{{ college }}">
-                    <option value="benjamin_franklin" {{ "selected='selected'" if college == 'benjamin_franklin' else ""}}>Benjamin Franklin</option>
-                    <option value="berkeley" {{ "selected='selected'" if college == 'berkeley' else ""}}>Berkeley</option>
-                    <option value="branford" {{ "selected='selected'" if college == 'branford' else ""}}>Branford</option>
-                    <option value="davenport" {{ "selected='selected'" if college == 'davenport' else ""}}>Davenport</option>
-                    <option value="ezra_stiles" {{ "selected='selected'" if college == 'ezra_stiles' else ""}}>Ezra Stiles</option>
-                    <option value="grace_hopper" {{ "selected='selected'" if college == 'grace_hopper' else ""}}>Grace Hopper</option>
-                    <option value="jonathan_edwards" {{ "selected='selected'" if college == 'jonathan_edwards' else ""}}>Jonathan Edwards</option>
-                    <option value="morse" {{ "selected='selected'" if college == 'morse' else ""}}>Morse</option>
-                    <option value="pauli_murray" {{ "selected='selected'" if college == 'pauli_murray' else ""}}>Pauli Murray</option>
-                    <option value="saybrook" {{ "selected='selected'" if college == 'saybrook' else ""}}>Saybrook</option>
-                    <option value="silliman" {{ "selected='selected'" if college == 'silliman' else ""}}>Siliman</option>
-                    <option value="timothy_dwight" {{ "selected='selected'" if college == 'timothy_dwight' else ""}}>Timothy Dwight</option>
-                    <option value="trumbull" {{ "selected='selected'" if college == 'trumbull' else ""}}>Trumbull</option>
+                    <option value="Benjamin Franklin" {{ "selected='selected'" if college == 'Benjamin Franklin' else ""}}>Benjamin Franklin</option>
+                    <option value="Berkeley" {{ "selected='selected'" if college == 'Berkeley' else ""}}>Berkeley</option>
+                    <option value="Branford" {{ "selected='selected'" if college == 'Branford' else ""}}>Branford</option>
+                    <option value="Davenport" {{ "selected='selected'" if college == 'Davenport' else ""}}>Davenport</option>
+                    <option value="Ezra Stiles" {{ "selected='selected'" if college == 'Ezra Stiles' else ""}}>Ezra Stiles</option>
+                    <option value="Grace Hopper" {{ "selected='selected'" if college == 'Grace Hopper' else ""}}>Grace Hopper</option>
+                    <option value="Jonathan Edwards" {{ "selected='selected'" if college == 'Jonathan Edwards' else ""}}>Jonathan Edwards</option>
+                    <option value="Morse" {{ "selected='selected'" if college == 'Morse' else ""}}>Morse</option>
+                    <option value="Pauli Murray" {{ "selected='selected'" if college == 'Pauli Murray' else ""}}>Pauli Murray</option>
+                    <option value="Saybrook" {{ "selected='selected'" if college == 'Saybrook' else ""}}>Saybrook</option>
+                    <option value="Silliman" {{ "selected='selected'" if college == 'Silliman' else ""}}>Siliman</option>
+                    <option value="Timothy Dwight" {{ "selected='selected'" if college == 'Timothy Dwight' else ""}}>Timothy Dwight</option>
+                    <option value="Trumbull" {{ "selected='selected'" if college == 'Trumbull' else ""}}>Trumbull</option>
                 </select>
                 <br>
                 <label for="class_year">Class Year</label>
@@ -40,24 +41,24 @@
                 <br>
                 <label for="gender">Gender</label>
                 <select id="gender" name="gender" value = " {{gender}} ">
-                    <option value="male" {{ "selected='selected'" if gender == 'male' else ""}}>Male</option>
-                    <option value="female" {{ "selected='selected'" if gender == 'female' else ""}}>Female</option>
-                    <option value="nonbinary" {{ "selected='selected'" if gender == 'nonbinary' else ""}}>Non-binary</option>
+                    <option value="Male" {{ "selected='selected'" if gender == 'Male' else ""}}>Male</option>
+                    <option value="Female" {{ "selected='selected'" if gender == 'Female' else ""}}>Female</option>
+                    <option value="Nonbinary" {{ "selected='selected'" if gender == 'Nonbinary' else ""}}>Non-binary</option>
                 </select>
                 <br>
                 <label for="orientation">Sexual Orientation</label>
                 <select id="orientation" name="orientation" value = " {{orientation}} ">
-                    <option value="straight" {{ "selected='selected'" if orientation == 'straight' else ""}}>Straight</option>
-                    <option value="gay" {{ "selected='selected'" if orientation == 'gay' else ""}}>Gay</option>
-                    <option value="lesbian" {{ "selected='selected'" if orientation == 'lesbian' else ""}}>Lesbian</option>
-                    <option value="bisexual" {{ "selected='selected'" if orientation == 'bisexual' else ""}}>Bisexual</option>
+                    <option value="Straight" {{ "selected='selected'" if orientation == 'Straight' else ""}}>Straight</option>
+                    <option value="Gay" {{ "selected='selected'" if orientation == 'Gay' else ""}}>Gay</option>
+                    <option value="Lesbian" {{ "selected='selected'" if orientation == 'Lesbian' else ""}}>Lesbian</option>
+                    <option value="Bisexual" {{ "selected='selected'" if orientation == 'Bisexual' else ""}}>Bisexual</option>
                 </select>
                 <br>
                 <label for="match_preference">Match Me With</label>
                 <select id="match_preference" name="match_preference" value = " {{match_preference}} ">
-                    <option value="male" {{ "selected='selected'" if match_preference == 'male' else ""}}>Male</option>
-                    <option value="female" {{ "selected='selected'" if match_preference == 'female' else ""}}>Female</option>
-                    <option value="nonbinary" {{ "selected='selected'" if match_preference == 'nonbinary' else ""}}>Non-binary</option>
+                    <option value="Male" {{ "selected='selected'" if match_preference == 'Male' else ""}}>Male</option>
+                    <option value="Female" {{ "selected='selected'" if match_preference == 'Female' else ""}}>Female</option>
+                    <option value="Nonbinary" {{ "selected='selected'" if match_preference == 'Nonbinary' else ""}}>Non-binary</option>
                 </select>
                 <br>
                 <input type="submit" class="button" value="Submit"/>

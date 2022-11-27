@@ -141,13 +141,49 @@ def add_friends(username):
 @app.route('/inbox/<username>', methods=['POST', 'GET'])
 def inbox(username):
     """inbox page"""
+    if request.method == 'GET':
+        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
+    else:
+        match_status = request.form['Status']
+        print(match_status)
+        match_user = request.form['potential_match']
+        print(match_user)
+        #update the database accept/decline status to either True or False for that match username
+        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
 
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
     # make sure the user names are actually real usernames: these are just for example
     # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
-    dummy_inbox_data = []
-    return render_template('inbox.html', inbox_data = dummy_inbox_data)
+
+@app.route('/inbox/<username>/view_potential', methods=['GET'])
+def view_potential(username):
+    """view potential matches' profile info"""
+    potential_match = request.args.get('potential_match')
+    dict_info = retrieve_profile_info(potential_match)
+    return render_template('view_potential.html', username=username,
+                           first_name=dict_info["first_name"],
+                           last_name=dict_info["last_name"],
+                           college=dict_info["college"],
+                           class_year=dict_info["class_year"],
+                           gender=dict_info["gender"],
+                           orientation=dict_info["orientation"])
+
+@app.route('/inbox/<username>/view_matched', methods=['GET'])
+def view_matched(username):
+    """view matches' profile info"""
+    match = request.args.get('match')
+    dict_info = retrieve_profile_info(match)
+    return render_template('view_matched.html', username=username,
+                           first_name=dict_info["first_name"],
+                           last_name=dict_info["last_name"],
+                           number=dict_info["number"],
+                           college=dict_info["college"],
+                           class_year=dict_info["class_year"],
+                           gender=dict_info["gender"],
+                           orientation=dict_info["orientation"])
 
 
 @app.route('/match/<username>', methods=['POST', 'GET'])

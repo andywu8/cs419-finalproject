@@ -118,14 +118,17 @@ def retrieve_profile_info(username):
     query = "SELECT * FROM users WHERE username = ?"
     cur.execute(query, [username])
     info = cur.fetchone()
+    first_name = info[1]
+    last_name = info[2]
     number = info[5]
     college = info[6]
     class_year = info[7]
     gender = info[8]
     orientation = info[9]
     match_preference = info[10]
-    info_dict = {"number": number, "college":college, "class_year":class_year, 
-                 "gender":gender, "orientation":orientation, "match_preference": match_preference}
+    info_dict = {"first_name": first_name, "last_name": last_name, "number": number, 
+                 "college":college, "class_year":class_year, "gender":gender, 
+                 "orientation":orientation, "match_preference": match_preference}
     return info_dict
     
 
