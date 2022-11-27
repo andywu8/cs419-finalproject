@@ -2,9 +2,9 @@
 
 from flask import Flask, render_template, request, redirect, url_for
 from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users
-import cgi #https://stackoverflow.com/questions/27046448/get-post-data-from-ajax-post-request-in-python-file
-app = Flask(__name__)
 
+app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -22,7 +22,7 @@ def home():
         if correct_login:
             users = retrieve_users()
             print("users", users)
-            return redirect(url_for('dashboard', username=username))
+            return redirect(url_for('match', username=username))
         else:
             error_messages.append("Incorrect username or password")
             return render_template('index.html',
@@ -36,23 +36,55 @@ def home():
 @app.route('/profile/<username>', methods=['POST', 'GET'])
 def profile(username):
     """profile page"""
-    return render_template('profile.html', username=username)
-
-
-@app.route('/dashboard/<username>', methods=['POST', 'GET'])
-def dashboard(username):
-    """dashboard page"""
+    confirmation_message = None
+    show_header = True
     if request.method == 'POST':
+        phone_number = request.form.get('phone_number')
         residential_college = request.form.get('residential_college')
         class_year = request.form.get('class_year')
         gender = request.form.get('gender')
         orientation = request.form.get('orientation')
         match_preference = request.form.get('match_preference')
 
-        edit_profile_info(username, residential_college,
+        edit_profile_info(username, phone_number, residential_college,
                           class_year, gender, orientation, match_preference)
+        confirmation_message = "Profile has been updated"
+        return render_template('profile.html', username=username, 
+                                number=phone_number,
+                                college=residential_college,
+                                class_year=class_year,
+                                gender=gender,
+                                orientation=orientation,
+                                match_preference=match_preference,
+                                confirmation_message=confirmation_message,
+                                show_header=show_header)
+    dict_info = retrieve_profile_info(username)
+    if dict_info["number"] == None:
+        show_header = False
+    return render_template('profile.html', username=username,
+                           number=dict_info["number"],
+                           college=dict_info["college"],
+                           class_year=dict_info["class_year"],
+                           gender=dict_info["gender"],
+                           orientation=dict_info["orientation"],
+                           match_preference=dict_info["match_preference"],
+                           show_header=show_header)
 
-    return render_template('dashboard.html', username=username)
+
+# @app.route('/dashboard/<username>', methods=['POST', 'GET'])
+# def dashboard(username):
+#     """dashboard page"""
+#     if request.method == 'POST':
+#         residential_college = request.form.get('residential_college')
+#         class_year = request.form.get('class_year')
+#         gender = request.form.get('gender')
+#         orientation = request.form.get('orientation')
+#         match_preference = request.form.get('match_preference')
+
+#         edit_profile_info(username, residential_college,
+#                           class_year, gender, orientation, match_preference)
+
+#     return render_template('dashboard.html', username=username)
 
 
 @app.route('/signup', methods=['POST', 'GET'])
@@ -72,7 +104,7 @@ def signup():
 
         if not user_exists:
             insert_user(first_name, last_name, username, password)
-            return redirect(url_for('dashboard', username=username))
+            return redirect(url_for('profile', username=username))
         else:
             error_messages.append("Username already exists")
 
@@ -83,7 +115,7 @@ def signup():
 
 @app.route('/find_friends/<username>', methods=['POST', 'GET'])
 def find_friends(username):
-    """add friends page"""
+    """find friends page"""
     return render_template('find_friends.html', username=username)
 
 
@@ -106,9 +138,10 @@ def add_friends(username):
         return render_template('add_friends.html', username=username)
 
 
-@app.route('/inbox', methods=['POST', 'GET'])
-def inbox():
+@app.route('/inbox/<username>', methods=['POST', 'GET'])
+def inbox(username):
     """inbox page"""
+
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
     # make sure the user names are actually real usernames: these are just for example

@@ -112,7 +112,6 @@ def retrieve_potential_friends(username, first_name, last_name, residential_coll
     con.close()
     return friends
 
-
 def retrieve_usernames(user_username):
     con = sql.connect("database.db")
     cur = con.cursor()
@@ -121,6 +120,22 @@ def retrieve_usernames(user_username):
     con.commit()
     con.close()
 
+def retrieve_profile_info(username):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    query = "SELECT * FROM users WHERE username = ?"
+    cur.execute(query, [username])
+    info = cur.fetchone()
+    number = info[5]
+    college = info[6]
+    class_year = info[7]
+    gender = info[8]
+    orientation = info[9]
+    match_preference = info[10]
+    info_dict = {"number": number, "college":college, "class_year":class_year, 
+                 "gender":gender, "orientation":orientation, "match_preference": match_preference}
+    return info_dict
+    
 
 def check_user_exists(username):
     con = sql.connect("database.db")
@@ -155,11 +170,11 @@ def retrieve_users():
     return users
 
 
-def edit_profile_info(username, residential_college, class_year, gender, orientation, match_preference):
+def edit_profile_info(username, phone_number, residential_college, class_year, gender, orientation, match_preference):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "UPDATE users SET college = ?, class_year = ?, gender = ?, orientation = ?, preference = ? WHERE username = ?"
-    cur.execute(query, [residential_college, class_year,
+    query = "UPDATE users SET phone_number = ?, college = ?, class_year = ?, gender = ?, orientation = ?, preference = ? WHERE username = ?"
+    cur.execute(query, [phone_number, residential_college, class_year,
                 gender, orientation, match_preference, username])
     con.commit()
     con.close()
