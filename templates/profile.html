@@ -4,7 +4,9 @@
     <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-    {% include "/header.html" %}
+    {% if show_header is true %}
+        {% include "/header.html" %}
+    {%endif%}
     <h1>Edit Your Profile Information</h1>
     <div class="form_holder">
         <div class="profile_form">
@@ -62,13 +64,6 @@
             </form>
         </div>
     </div>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class=flashes>{{message}}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 
     {% if confirmation_message is not none %}
         {{confirmation_message}}

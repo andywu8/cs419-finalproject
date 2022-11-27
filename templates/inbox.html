@@ -4,7 +4,12 @@
 </head>
 <body>
     {% include "header.html" %}
-
     <h1>Inbox Page</h1>
+
+    {% for match in inbox_data %}
+        {% if match[2] is none %}
+            <div class=matches>{{match[1]}}</div>
+        {%endif%}
+    {% endfor %}
 </body>
 </html>

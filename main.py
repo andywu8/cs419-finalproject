@@ -37,6 +37,7 @@ def home():
 def profile(username):
     """profile page"""
     confirmation_message = None
+    show_header = True
     if request.method == 'POST':
         phone_number = request.form.get('phone_number')
         residential_college = request.form.get('residential_college')
@@ -55,15 +56,19 @@ def profile(username):
                                 gender=gender,
                                 orientation=orientation,
                                 match_preference=match_preference,
-                                confirmation_message=confirmation_message)
+                                confirmation_message=confirmation_message,
+                                show_header=show_header)
     dict_info = retrieve_profile_info(username)
+    if dict_info["number"] == None:
+        show_header = False
     return render_template('profile.html', username=username,
                            number=dict_info["number"],
                            college=dict_info["college"],
                            class_year=dict_info["class_year"],
                            gender=dict_info["gender"],
                            orientation=dict_info["orientation"],
-                           match_preference=dict_info["match_preference"])
+                           match_preference=dict_info["match_preference"],
+                           show_header=show_header)
 
 
 # @app.route('/dashboard/<username>', methods=['POST', 'GET'])
@@ -111,10 +116,6 @@ def signup():
 @app.route('/find_friends/<username>', methods=['POST', 'GET'])
 def find_friends(username):
     """find friends page"""
-    dict_info = retrieve_profile_info(username)
-    if dict_info["number"] == None:
-        flash("SET UP PROFILE FIRST!", category="error")
-        return redirect(url_for('profile', username=username))
     return render_template('find_friends.html', username=username)
 
 
@@ -140,10 +141,6 @@ def add_friends(username):
 @app.route('/inbox/<username>', methods=['POST', 'GET'])
 def inbox(username):
     """inbox page"""
-    dict_info = retrieve_profile_info(username)
-    if dict_info["number"] == None:
-        flash("SET UP PROFILE FIRST!", category="error")
-        return redirect(url_for('profile', username=username))
 
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
@@ -156,11 +153,6 @@ def inbox(username):
 @app.route('/match/<username>', methods=['POST', 'GET'])
 def match(username):
     """match page"""
-    dict_info = retrieve_profile_info(username)
-    if dict_info["number"] == None:
-        flash("SET UP PROFILE FIRST!", category="error")
-        return redirect(url_for('profile', username=username))
-
     if request.method == "GET":
         my_friends = get_my_friends(username)
         return render_template('match.html', username=username, my_friends=my_friends)
