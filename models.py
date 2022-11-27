@@ -17,8 +17,16 @@ def login(username, password):
 def match_users(username, user1, user2):
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "INSERT INTO inbox (username, matched_user1, matched_user2, inbox_message) VALUES (?, ?, ?, ?)"
-	cur.execute(query, [username, user1, user2, "You've been matched"])
+	query = "INSERT INTO inbox (username, matched_user1, matched_user2, matched_boolean) VALUES (?, ?, ?, ?)"
+	cur.execute(query, [username, user1, user2, None])
+	query = "SELECT * FROM inbox WHERE username = ?"
+	cur.execute(query, [username])
+	matches = []
+	row = cur.fetchone()
+	while row is not None:
+		matches.append([row[0], row[1], row[2]])
+		print("your matches", row)
+		row = cur.fetchone()
 	con.commit()
 	con.close()
 

@@ -13,12 +13,12 @@ drop table if exists users;
     preference text
 );
 
-insert into users (first_name, last_name, username, password) 
-VALUES 
-    ('dummy-Andy', 'Wu', 'dummy-andywu', 'andywu'),
-    ('dummy-Allen', 'Chun', 'dummy-allenchun', 'allenchun'),
-    ('dummy-Annette', 'Lee', 'dummy-annettelee', 'annettelee'),
-    ('dummy-Kishan', 'Patel', 'dummy-kishanpatel', 'kishanpatel');
+-- insert into users (first_name, last_name, username, password) 
+-- VALUES 
+--     ('dummy-Andy', 'Wu', 'dummy-andywu', 'andywu'),
+--     ('dummy-Allen', 'Chun', 'dummy-allenchun', 'allenchun'),
+--     ('dummy-Annette', 'Lee', 'dummy-annettelee', 'annettelee'),
+--     ('dummy-Kishan', 'Patel', 'dummy-kishanpatel', 'kishanpatel');
 
 
 drop table if exists friends;
@@ -38,4 +38,5 @@ drop table if exists inbox;
     matched_boolean boolean, 
     FOREIGN KEY (username) references users(username)
 );
+
 
