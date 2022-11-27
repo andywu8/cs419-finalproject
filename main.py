@@ -1,6 +1,6 @@
 """main file to run flask app"""
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info
 
 app = Flask(__name__)
@@ -93,7 +93,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        # insert_dummy_users()
+        insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -193,7 +193,12 @@ def match(username):
         my_friends = get_my_friends(username)
         return render_template('match.html', username=username, my_friends=my_friends)
     else:
-        # match_users()
+        match1_username = request.form['match1_username']
+        print("match1_username", match1_username)
+        match2_username = request.form['match2_username']
+        print("match2_username", match2_username)
+        match_users(username, match1_username, match2_username)
+
         my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
