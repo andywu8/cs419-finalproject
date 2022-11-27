@@ -93,7 +93,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        # insert_dummy_users()
+        insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -142,9 +142,10 @@ def add_friends(username):
 def inbox(username):
     """inbox page"""
     if request.method == 'GET':
-        dummy_inbox_data = get_matches_in_inbox(username)
-        # dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
-        return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
+        inbox_data = get_matches_in_inbox(username)
+
+        # dummy_inbox_data = [["ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        return render_template('inbox.html', username=username, inbox_data = inbox_data)
     else:
         match_status = request.form['Status']
         print(match_status)

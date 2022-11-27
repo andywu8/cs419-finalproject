@@ -14,13 +14,13 @@
                     <th>Potential matches</th>
                 </tr>
                 {% for match in inbox_data %}
-                    {% if match[2] is none %}
+                    {% if match[1] is none %}
                         <tr>
-                            <td><a href="{{username}}/view_potential?potential_match={{match[1]}}">{{match[1]}}</a></td>
+                            <td><a href="{{username}}/view_potential?potential_match={{match[0]}}">{{match[0]}}</a></td>
                             <form name="match" action="{{ url_for('inbox', username=username) }}" method="POST">
                                 <td><label><input type="radio" name="Status" value="Accept" id="Accept">Accept</label></td>
                                 <td><label><input type="radio" name="Status" value="Decline" id="Decline">Decline</label></td>
-                                <td><button type=”submit” name="potential_match" value="{{match[1]}}">Submit</button></td>
+                                <td><button type=”submit” name="potential_match" value="{{match[0]}}">Submit</button></td>
                             </form>
                         </tr>
                     {%endif%}
@@ -36,9 +36,9 @@
                     <th>Matches</th>
                 </tr>
                 {% for match in inbox_data %}
-                    {% if match[2] is true %}
+                    {% if match[1] is true %}
                         <tr>
-                            <td><a href="{{username}}/view_matched?match={{match[1]}}">{{match[1]}}</a></td>
+                            <td><a href="{{username}}/view_matched?match={{match[0]}}">{{match[0]}}</a></td>
                         </tr>
                     {%endif%}
                 {% endfor %}

@@ -229,7 +229,7 @@ def get_matches_in_inbox(username):
 	query = "SELECT matched_user2, matched_boolean from inbox WHERE matched_user1 = ?"
 	cur.execute(query, [username])
 	matches += cur.fetchall()
-	print(matches)
+	print("matches are", matches)
 	con.close()
 
 	return matches
