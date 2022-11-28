@@ -34,11 +34,36 @@
             <thead>
                 <tr>
                     <th>Matches</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone Number</th>
                 </tr>
                 {% for match in inbox_data %}
-                    {% if match[1] is true %}
+                    {% if match[1] == 1 %}
                         <tr>
                             <td><a href="{{username}}/view_matched?match={{match[0]}}">{{match[0]}}</a></td>
+                            <td>{{match[2]}}</td>
+                            <td>{{match[3]}}</td>
+                            <td>{{match[4]}}</td>
+
+                        </tr>
+                    {%endif%}
+                {% endfor %}
+            </thead>
+        </table>
+    </div>
+    <div class="rejected">
+        <table id="rejected-datatable">
+            <thead>
+                <tr>
+                    <th>Rejected Matches</th>
+                </tr>
+                {% for match in inbox_data %}
+                    {% if match[1] == 0 %}
+                        <tr>
+                            <td>{{match[0]}}</td>
+                            <td>{{match[2]}}</td>
+                            <td>{{match[3]}}</td>
                         </tr>
                     {%endif%}
                 {% endfor %}

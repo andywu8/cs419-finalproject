@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, redirect, url_for
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -93,7 +93,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        insert_dummy_users()
+        # insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -143,18 +143,27 @@ def inbox(username):
     """inbox page"""
     if request.method == 'GET':
         inbox_data = get_matches_in_inbox(username)
+        print("inbox data is ", inbox_data)
+
 
         # dummy_inbox_data = [["ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
         return render_template('inbox.html', username=username, inbox_data = inbox_data)
     else:
         match_status = request.form['Status']
-        print(match_status)
+        if match_status == "Accept":
+            matched_boolean = True
+        else:
+            matched_boolean = False
+    
+        print("matched boolean", matched_boolean)
         match_user = request.form['potential_match']
-        print(match_user)
+        update_inbox(match_user, username, matched_boolean)
+        print(match_user, "match user")
         #update the database accept/decline status to either True or False for that match username
-        dummy_inbox_data = get_matches_in_inbox(username)
-        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
-        return render_template('inbox.html', username=username, inbox_data = dummy_inbox_data)
+        inbox_data = get_matches_in_inbox(username)
+        print("inbox data is ", inbox_data)
+        # dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        return render_template('inbox.html', username=username, inbox_data = inbox_data)
 
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]

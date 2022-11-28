@@ -13,6 +13,16 @@ def login(username, password):
         return True
     else:
         return False
+def update_inbox(user1, user2, matched_boolean):
+	print("check that update inbox is working")
+	con = sql.connect("database.db")
+	cur = con.cursor()
+	query = "UPDATE inbox SET matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ?"
+	cur.execute(query, (matched_boolean, user1, user2))
+	query = "UPDATE inbox SET matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ?"
+	cur.execute(query, (matched_boolean, user2, user1))
+	con.commit()
+	con.close()
 
 def match_users(username, user1, user2):
 	con = sql.connect("database.db")
@@ -33,8 +43,8 @@ def match_users(username, user1, user2):
 def insert_dummy_users():
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "INSERT INTO users (first_name, last_name, username, password) VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)"
-	args = ["John", "Doe", "jdoe", "password", "John1", "Doe1", "jdoe", "password", "John2", "Doe2", "jdoe2", "password"]
+	query = "INSERT INTO users (first_name, last_name, username, password, phone_number) VALUES (?, ?, ?, ?, ?), (?, ?, ?, ?, ?), (?, ?, ?, ?, ?)"
+	args = ["John", "Doe", "jdoe", "password", "100-000-0000", "John1", "Doe1", "jdoe", "password", "100-000-0000", "John2", "Doe2", "jdoe2", "password", "100-000-0000"]
 	cur.execute(query, args)
 	con.commit()
 	con.close()
@@ -219,14 +229,19 @@ def get_potential_matches(friend_username):
 def get_matches_in_inbox(username):
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "SELECT matched_user1, matched_boolean from inbox WHERE matched_user2 = ?"
+	query = "SELECT matched_user1, matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
+	query += "JOIN users on inbox.matched_user1 = users.username "
+	query += "WHERE inbox.matched_user2 = ?"
 	cur.execute(query, [username])
 	matches = cur.fetchall()
 	con.close()
 
 	con = sql.connect("database.db")
 	cur = con.cursor()
-	query = "SELECT matched_user2, matched_boolean from inbox WHERE matched_user1 = ?"
+	query = "SELECT matched_user2, matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
+	query += "JOIN users on inbox.matched_user2 = users.username "
+	query += "WHERE inbox.matched_user1 = ? "
+
 	cur.execute(query, [username])
 	matches += cur.fetchall()
 	print("matches are", matches)
