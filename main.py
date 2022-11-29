@@ -129,8 +129,10 @@ def add_friends(username):
         class_year = request.args.get('class_year')
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
+        friends = get_my_friends(username)
+        # print("friends", friends)
         potential_friends = retrieve_potential_friends(
-            username, first_name, last_name, residential_college, class_year, gender, orientation)
+            username, friends, first_name, last_name, residential_college, class_year, gender, orientation)
         return render_template('add_friends.html', username=username, potential_friends=potential_friends)
     else:
         friend_username = request.args.get('friend_username')
