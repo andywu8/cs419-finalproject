@@ -2,30 +2,40 @@
 <html lang="en">
 <head>
     <link href="/static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
+    <link href='https://fonts.googleapis.com/css?family=Domine' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=M PLUS Rounded 1c' rel='stylesheet'>
 </head>
 <body>
     {% include "header.html" %}
-    <h1>Add Friends</h1>
-    <table>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th></th>
-        </tr>
-        {% for potential_friend in potential_friends: %}
-        <tr>
-            <td>{{potential_friend[1]}}</td>
-            <td>{{potential_friend[2]}}</td>
-            <td>
-                <form method="post" action="{{url_for('add_friends', username=username, friend_username=potential_friend[0])}}">
-                    <button type="submit">Add Friend</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="friends-title">
+        <p>Find Friends</p>
+    </div>
+    <div class="add-friends-container">
+        <div class="add-friends-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                </tr>
+                </thead>
+                {% for potential_friend in potential_friends: %}
+                <tbody>
+                <tr>
+                    <td>{{potential_friend[1]}}</td>
+                    <td>{{potential_friend[2]}}</td>
+                    <td>
+                        <form method="post" action="{{url_for('add_friends', username=username, friend_username=potential_friend[0])}}">
+                            <button class="add-friend-button" type="submit">Add Friend</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>

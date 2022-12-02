@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="/static/css/add_friends.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/static/css/profile.css" rel="stylesheet" type="text/css" media="all">
     <link href="/static/css/match.css" rel="stylesheet" type="text/css" media="all">
-
+    <link href='https://fonts.googleapis.com/css?family=Domine' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=M PLUS Rounded 1c' rel='stylesheet'>
 </head>
 <body>
     {% include "header.html" %}
-    <h1>Match Two Friends</h1>
-    <table>
-        <h2>Friend 1</h2>
-        <select id="myform-friend1" name='category' multiple class="form-control"> // addition here
-            {% for friend in my_friends: %}
-                <option value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
-            {% endfor %}
-        </select>
-    </table>
-    <table>
-        <h2>Friend 2</h2>
-        <select id="myform-friend2" name='category' multiple class="form-control"> // addition here
-            {% for friend in my_friends: %}
-                <option value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
-            {% endfor %}
-        </select>
-    </table>
+    <div class="match-container">
+        <div class="match-title">
+            <p>Match Two Friends</p>
+        </div>
+        <div class="select-friend-table">
+            <div class="friend-1-table">
+                <table>
+                    <p class="friend-title">Friend 1</p>
+                    <select id="myform-friend1" name='category' multiple class="form-control"> // addition here
+                        {% for friend in my_friends: %}
+                            <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </table>
+            </div>
+            <div class="friend-2-table">
+                <table>
+                    <p class="friend-title">Friend 2</p>
+                    <select id="myform-friend2" name='category' multiple class="form-control"> // addition here
+                        {% for friend in my_friends: %}
+                            <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
+                        {% endfor %}
+                    </select>
+                </table>
+            </div>
+        </div>
+        <div class="match-button">
+            <button onclick="match()">Match</button>
+        </div>
 
-    <button onclick="match()">Match</button>
     <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         'use strict';
@@ -45,7 +54,6 @@
         }
 
         function match() {
-            console.log("does it get here");
             var e = document.getElementById("myform-friend1");
             var match1_username = e.options[e.selectedIndex].value;
             var e = document.getElementById("myform-friend2");
