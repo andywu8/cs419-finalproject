@@ -171,11 +171,12 @@ def inbox(username):
     # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
 
 @app.route('/inbox/<username>/view_profile', methods=['GET'])
-def view_profile(username):
+# @app.route('/view_match_profile/<username>/<matched_boolean>', methods=['GET'])
+def view_match_profile(username, matched_boolean):
     """view matches' profile info"""
     match = request.args.get('match')
     dict_info = retrieve_profile_info(match)
-    matched_boolean = get_matched_boolean(username, match)
+    # matched_boolean = get_matched_boolean(username, match)
     return render_template('view_profile.html', username=username,
                            matched_boolean=matched_boolean,
                            first_name=dict_info["first_name"],
