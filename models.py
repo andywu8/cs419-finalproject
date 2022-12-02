@@ -1,15 +1,18 @@
 import sqlite3 as sql
-
+from werkzeug.security import check_password_hash
 
 def login(username, password):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT count(*) FROM users WHERE username = ? AND password = ?"
-    cur.execute(query, [username, password])
+    query = "SELECT count(*) FROM users WHERE username = ?"
+    cur.execute(query, [username])
     (num_users_with_username_and_password,) = cur.fetchone()
+    query = "SELECT password FROM users WHERE username = ?"
+    cur.execute(query, [username])
+    (hashed_password,) = cur.fetchone()
     con.commit()
     con.close()
-    if num_users_with_username_and_password > 0:
+    if num_users_with_username_and_password > 0 and check_password_hash(hashed_password, password):
         return True
     else:
         return False
