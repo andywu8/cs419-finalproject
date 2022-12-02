@@ -2,18 +2,30 @@
 <html lang="en">
 <head>
   <link href="/static/css/main.css" rel="stylesheet" type="text/css" media="all">
+  <link href='https://fonts.googleapis.com/css?family=Domine' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=M PLUS Rounded 1c' rel='stylesheet'>
 </head>
-    <body>
-      <h1 id="home_title" style="text-align:center;">Mutuals</h1>
-    	<div class="box-login">
-  			<h1 id="login" >Log In</h1>
-  			<form action="/" method="post">
-    			<input type="text" name="username" id="username" placeholder="Username" required/>
-    			<br>
-    			<input type="password" name="password" id="password" placeholder="Password" required/>
-    			<br>
-    			<input type="submit" class="button" value="Log In"/>
-  			</form>
+  <body>
+    <div class="login-container">
+      <div class="home-title">
+        <p>Mutuals</p>
+      </div>
+      <br>
+      <div class="login-box">
+        <div class="login-title">
+          <p>Log In</p>
+        </div>
+        <form action="/" method="post">
+          <div class="user-box">
+            <input type="text" name="username" id="username" placeholder="Username" required/>
+          </div>
+          <div class="user-box">
+            <input type="password" name="password" id="password" placeholder="Password" required/>
+          </div>
+          <div class="submit">
+            <input type="submit" class="button" value="Log In"/>
+          </div>
+        </form>
         {%if error_messages%}
           <div>
             {% for error_msg in error_messages: %}
@@ -21,10 +33,37 @@
             {% endfor %}
           </div>
         {%endif%}
-        <br>
         <form action="signup" method="get">
-          <input type="submit" class="button" value="Create an Account"/>
+          <div class="submit">
+            <input type="submit" class="button" value="Create Account"/>
+          </div>
         </form>
-		</div>
-</body>
+        <!-- <div class="login-interactions">
+          <h1 id="login">Log In</h1>
+          <form action="/" method="post">
+            <div class="user-box">
+              <input type="text" name="username" id="username" placeholder="Username" required/>
+            </div>
+            <br>
+            <div class="user-box">
+              <input type="password" name="password" id="password" placeholder="Password" required/>
+            </div>
+            <br>
+            <input type="submit" class="button" value="Log In"/>
+          </form>
+          {%if error_messages%}
+            <div>
+              {% for error_msg in error_messages: %}
+              <p>{{error_msg}}</p>
+              {% endfor %}
+            </div>
+          {%endif%}
+          <form action="signup" method="get">
+          <input type="submit" class="button" value="Create an Account"/>
+          </form>
+        </div>
+       -->
+      </div>
+    </div>
+  </body>
 </html>

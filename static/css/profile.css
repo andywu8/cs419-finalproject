@@ -1,5 +1,66 @@
 body {
-    background-color: pink;
+    margin: 0;
+    padding: 0;
+
+    background: white;
+}
+
+.profile-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1%;
+}
+
+.profile-title p {
+    font-family: 'Domine';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+    color: #404040;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto;
+    margin-top: 10px;
+
+    width: 650px;
+    height: 445px;
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+
+    background: #F56485;
+    border-radius: 30px;
+
+    flex-direction: column;
+}
+
+.item-box {
+    flex-direction: row;
+    width: 500px;
+    height: 55px;
+}
+
+input, select {
+    display: inline-block;
+    font-size: 14px;
+    width: 200px;
+    height: 45px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #F8F6FC;
+    background: #F8F6FC;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-family: 'M PLUS Rounded 1c';
 }
 
 label {
@@ -7,37 +68,32 @@ label {
     clear: left;
     width: 250px;
     text-align: left;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'M PLUS Rounded 1c';
+    font-size: 18px;
+    color: #F8F6FC
+}
+
+.button {
+    box-sizing: border-box;
+    flex-direction: row;
+    margin: auto;
+    align-items: center;
+    padding: 4px 15px;
+    gap: 8px;
+    width: 150px;
+    height: 35px;
+    background: #F8F6FC;
+    border: 1px solid #EBD5D5;
+    border-radius: 17px;
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+    font-family: 'M PLUS Rounded 1c';
+    font-style: normal;
     font-size: 20px;
-}
-
-select {
-  display: inline-block;
-  font-size: 16;
-  width: 200px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid white;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-
-input[type=submit] {
-    width: 200px;
-    background-color:palevioletred;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-input[type=submit]:hover {
-    background-color: palevioletred;
-}
-
-input[type=phone_number] {
-    margin-left: 0px;
+    line-height: 22px;
+    display: flex;
+    text-align: center;
+    letter-spacing: 0.41px;
+    color: #404040;
 }
