@@ -4,29 +4,30 @@
     <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body>
-    {% include "header.html" %}
-
     <h1 id="home_title" style="text-align:center;">Mutuals</h1>
-        <div class="box">
-        <h1>Signup</h1>
-        <form action="signup" method="post">
-            <input type="text" name="first_name" id="first_name" placeholder="First Name" required/>
-            <br>
-            <input type="text" name="last_name" id="last_name" placeholder="Last Name" required/>
-            <br>
-            <input type="text" name="username" id="username" placeholder="Username" required/>
-            <br>
-            <input type="password" name="password" id="password" placeholder="Password" required/>
-            <input type="submit" class="button" value="Submit"/>
-            <br>
-        </form>
-        {%if error_messages%}
-          <div>
-            {% for error_msg in error_messages: %}
-              <p>{{error_msg}}</p>
-            {% endfor %}
-          </div>
-        {%endif%}
+    <div class="box-signup">
+      <h1>Signup</h1>
+      <form action="signup" method="post">
+          <input type="text" name="first_name" id="first_name" placeholder="First Name" required/>
+          <br>
+          <input type="text" name="last_name" id="last_name" placeholder="Last Name" required/>
+          <br>
+          <input type="text" name="username" id="username" placeholder="Username" required/>
+          <br>
+          <input type="password" name="password" id="password" placeholder="Password" required/>
+          <input type="submit" class="button" value="Submit"/>
+          <br>
+      </form>
+      {%if error_messages%}
+        <div>
+          {% for error_msg in error_messages: %}
+            <p>{{error_msg}}</p>
+          {% endfor %}
+        </div>
+      {%endif%}
+      <form action="/" method="get">
+        <input type="submit" class="button" value="Return to Login"/>
+      </form>
     </div>
 </body>
 </html>

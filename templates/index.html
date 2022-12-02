@@ -5,7 +5,7 @@
 </head>
     <body>
       <h1 id="home_title" style="text-align:center;">Mutuals</h1>
-    	<div class="box">
+    	<div class="box-login">
   			<h1 id="login" >Log In</h1>
   			<form action="/" method="post">
     			<input type="text" name="username" id="username" placeholder="Username" required/>
@@ -17,7 +17,7 @@
         {%if error_messages%}
           <div>
             {% for error_msg in error_messages: %}
-            <p>{{error_msg}}</p>
+              <p>{{error_msg}}</p>
             {% endfor %}
           </div>
         {%endif%}

@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, redirect, url_for
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox, get_matched_boolean
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -170,25 +170,14 @@ def inbox(username):
     # make sure the user names are actually real usernames: these are just for example
     # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
 
-@app.route('/inbox/<username>/view_potential', methods=['GET'])
-def view_potential(username):
-    """view potential matches' profile info"""
-    potential_match = request.args.get('potential_match')
-    dict_info = retrieve_profile_info(potential_match)
-    return render_template('view_potential.html', username=username,
-                           first_name=dict_info["first_name"],
-                           last_name=dict_info["last_name"],
-                           college=dict_info["college"],
-                           class_year=dict_info["class_year"],
-                           gender=dict_info["gender"],
-                           orientation=dict_info["orientation"])
-
-@app.route('/inbox/<username>/view_matched', methods=['GET'])
-def view_matched(username):
+@app.route('/inbox/<username>/view_profile', methods=['GET'])
+def view_profile(username):
     """view matches' profile info"""
     match = request.args.get('match')
     dict_info = retrieve_profile_info(match)
-    return render_template('view_matched.html', username=username,
+    matched_boolean = get_matched_boolean(username, match)
+    return render_template('view_profile.html', username=username,
+                           matched_boolean=matched_boolean,
                            first_name=dict_info["first_name"],
                            last_name=dict_info["last_name"],
                            number=dict_info["number"],
@@ -196,6 +185,33 @@ def view_matched(username):
                            class_year=dict_info["class_year"],
                            gender=dict_info["gender"],
                            orientation=dict_info["orientation"])
+
+# @app.route('/inbox/<username>/view_potential', methods=['GET'])
+# def view_potential(username):
+#     """view potential matches' profile info"""
+#     potential_match = request.args.get('potential_match')
+#     dict_info = retrieve_profile_info(potential_match)
+#     return render_template('view_potential.html', username=username,
+#                            first_name=dict_info["first_name"],
+#                            last_name=dict_info["last_name"],
+#                            college=dict_info["college"],
+#                            class_year=dict_info["class_year"],
+#                            gender=dict_info["gender"],
+#                            orientation=dict_info["orientation"])
+
+# @app.route('/inbox/<username>/view_matched', methods=['GET'])
+# def view_matched(username):
+#     """view matches' profile info"""
+#     match = request.args.get('match')
+#     dict_info = retrieve_profile_info(match)
+#     return render_template('view_matched.html', username=username,
+#                            first_name=dict_info["first_name"],
+#                            last_name=dict_info["last_name"],
+#                            number=dict_info["number"],
+#                            college=dict_info["college"],
+#                            class_year=dict_info["class_year"],
+#                            gender=dict_info["gender"],
+#                            orientation=dict_info["orientation"])
 
 
 @app.route('/match/<username>', methods=['POST', 'GET'])

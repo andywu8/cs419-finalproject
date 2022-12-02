@@ -19,15 +19,23 @@ h1 {
   margin-bottom: 10px;
 }
 
-.box h2{
+/* .box h2{
   text-align: center;
   margin-top: 30px;
-}
+} */
 
-.box {
+.box-login {
   margin: 20px auto;
   width: 310px;
-  height: 260px;
+  height: 280px;
+  border-radius: 40px;
+  background-color: white;
+}
+
+.box-signup {
+  margin: 20px auto;
+  width: 310px;
+  height: 340px;
   border-radius: 40px;
   background-color: white;
 }
