@@ -67,7 +67,32 @@ def insert_friend(username, friend):
     con.close()
 
 
-def retrieve_potential_friends(username, first_name, last_name, residential_college, class_year, gender, orientation):
+
+def add_friend(username, friend_username):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
+    cur.execute(query, [username, friend_username])
+    con.commit()
+    con.close()
+
+
+def get_my_friends(username):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    query = "SELECT first_name, last_name, username from users WHERE username IN (SELECT friend from friends WHERE username = ?)"
+    cur.execute(query, [username])
+    friends = []
+    row = cur.fetchone()
+    while row is not None:
+        friends.append([row[0], row[1], row[2]])
+        print(row)
+        row = cur.fetchone()
+    con.close()
+    return friends
+
+
+def retrieve_potential_friends(username, friends, first_name, last_name, residential_college, class_year, gender, orientation):
     con = sql.connect("database.db")
     cur = con.cursor()
     args = []
@@ -82,8 +107,22 @@ def retrieve_potential_friends(username, first_name, last_name, residential_coll
         orientation = None
 
     query = "SELECT username, first_name, last_name FROM users "
-    if first_name or last_name or residential_college or class_year or gender or orientation:
+    if friends or first_name or last_name or residential_college or class_year or gender or orientation:
         query += "WHERE "
+        if friends:
+            len_friends = len(friends)
+            for index, friend in enumerate(friends):
+                query += "username != ? "
+                friend_username = friend[2]
+                # print("friend_username", friend_username)
+                args.append(friend_username)
+                if index < len_friends - 1:
+                    query += "AND "
+                else: 
+                    if first_name or last_name or residential_college or class_year or gender or orientation:
+                        query += "AND "
+        
+
         if first_name:
             query += "LOWER(first_name) LIKE ? "
             args.append(first_name.lower() + '%')
@@ -112,9 +151,9 @@ def retrieve_potential_friends(username, first_name, last_name, residential_coll
         if orientation:
             query += "orientation = ? "
             args.append(orientation)
-        query += "AND username != ? "
+        query += "AND users.username != ? "
     else:
-        query += "WHERE username != ? "
+        query += "WHERE users.username != ? "
 
     args.append(username)
     print("args: ", args)
@@ -201,30 +240,6 @@ def edit_profile_info(username, phone_number, residential_college, class_year, g
                 gender, orientation, match_preference, username])
     con.commit()
     con.close()
-
-
-def add_friend(username, friend_username):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
-    cur.execute(query, [username, friend_username])
-    con.commit()
-    con.close()
-
-
-def get_my_friends(username):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "SELECT first_name, last_name, username from users WHERE username IN (SELECT friend from friends WHERE username = ?)"
-    cur.execute(query, [username])
-    friends = []
-    row = cur.fetchone()
-    while row is not None:
-        friends.append([row[0], row[1], row[2]])
-        print(row)
-        row = cur.fetchone()
-    con.close()
-    return friends
 
 
 def get_potential_matches(friend_username):
