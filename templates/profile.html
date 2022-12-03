@@ -17,6 +17,14 @@
         <div class="profile-box">
             <form action="{{ url_for('profile', username=username) }}" method="post">
                 <div class="item-box">
+                    <label for="first name">First Name</label>
+                    <input type="first_name" name="first_name" value="{{ firstname }}"><br/><br/>
+                </div>
+                <div class="item-box">
+                    <label for="last name">Last Name</label>
+                    <input type="last_name" name="last_name" value="{{ lastname }}"><br/><br/>
+                </div>
+                <div class="item-box">
                     <label for="phone_number">Phone Number</label>
                     <input type="phone_number" name="phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="{{ number|default("000-000-0000", true) }}"><br/><br/>
                 </div>

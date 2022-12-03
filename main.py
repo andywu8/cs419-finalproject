@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, make_response, redirect, url_for, session
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox, get_matched_boolean
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox, get_matched_boolean, get_your_decisions, get_their_decisions
 from helper import login_required
 from tempfile import mkdtemp
 from flask_session import Session
@@ -50,7 +50,11 @@ def profile():
     """profile page"""
     confirmation_message = None
     show_header = True
+    print("check profile")
+    username = session["username"]
     if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
         phone_number = request.form.get('phone_number')
         residential_college = request.form.get('residential_college')
         class_year = request.form.get('class_year')
@@ -58,10 +62,12 @@ def profile():
         orientation = request.form.get('orientation')
         match_preference = request.form.get('match_preference')
 
-        edit_profile_info(session["username"], phone_number, residential_college,
+        edit_profile_info(username, first_name, last_name, phone_number, residential_college,
                           class_year, gender, orientation, match_preference)
         confirmation_message = "Profile has been updated"
-        return render_template('profile.html', username=session["username"], 
+        return render_template('profile.html', username=username, 
+                                firstname = first_name,
+                                lastname = last_name,
                                 number=phone_number,
                                 college=residential_college,
                                 class_year=class_year,
@@ -70,10 +76,12 @@ def profile():
                                 match_preference=match_preference,
                                 confirmation_message=confirmation_message,
                                 show_header=show_header)
-    dict_info = retrieve_profile_info(session["username"])
+    dict_info = retrieve_profile_info(username)
     if dict_info["number"] == None:
         show_header = False
-    return render_template('profile.html', username=session["username"],
+    return render_template('profile.html', username=username,
+                           firstname=dict_info["first_name"],
+                           lastname=dict_info["last_name"],
                            number=dict_info["number"],
                            college=dict_info["college"],
                            class_year=dict_info["class_year"],
@@ -83,29 +91,13 @@ def profile():
                            show_header=show_header)
 
 
-# @app.route('/dashboard/<username>', methods=['POST', 'GET'])
-# def dashboard(username):
-#     """dashboard page"""
-#     if request.method == 'POST':
-#         residential_college = request.form.get('residential_college')
-#         class_year = request.form.get('class_year')
-#         gender = request.form.get('gender')
-#         orientation = request.form.get('orientation')
-#         match_preference = request.form.get('match_preference')
-
-#         edit_profile_info(username, residential_college,
-#                           class_year, gender, orientation, match_preference)
-
-#     return render_template('dashboard.html', username=username)
-
-
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     """signup page"""
     error_messages = []
 
     if request.method == 'POST':
-        # insert_dummy_users()
+        insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -115,8 +107,11 @@ def signup():
         user_exists = check_user_exists(username)
 
         if not user_exists:
+            print("check")
             insert_user(first_name, last_name, username, generate_password_hash(password))
-            return redirect(url_for('profile', username=username))
+            print("check1")
+            session["username"] = username
+            return redirect(url_for('profile'))
         else:
             error_messages.append("Username already exists")
 
@@ -129,7 +124,8 @@ def signup():
 @login_required
 def find_friends():
     """find friends page"""
-    return render_template('find_friends.html', username=session["username"])
+    username = session["username"]
+    return render_template('find_friends.html', username=username)
 
 
 @app.route('/add_friends', methods=['POST', 'GET'])
@@ -145,8 +141,8 @@ def add_friends():
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
 
-        # print("friends", friends)
         friends = get_my_friends(username)
+        #print("friends", friends)
 
         potential_friends = retrieve_potential_friends(
             username, friends, first_name, last_name, residential_college, class_year, gender, orientation)
@@ -162,24 +158,17 @@ def add_friends():
         response.set_cookie('prev_orientation', orientation)
         return response
     else:
-        print("check here")
         prev_first_name = request.cookies.get('prev_first_name')
-        print("prev_first_name", prev_first_name)
         prev_last_name = request.cookies.get('prev_last_name')
-        print("prev_last_name", prev_last_name)
         prev_residential_college = request.cookies.get('prev_residential_college')
-        print("prev_residential_college", prev_residential_college)
         prev_class_year = request.cookies.get('prev_class_year')
-        print("prev_class_year", prev_class_year)
         prev_gender =  request.cookies.get('prev_gender')
-        print("prev_gender", prev_gender)
         prev_orientation = request.cookies.get('prev_orientation')
-        print("prev_orientation", prev_orientation)
         friend_username = request.args.get('friend_username')
 
         add_friend(username, friend_username)
         friends = get_my_friends(username)
-        # print("friends", friends)
+        #print("friends", friends)
         potential_friends = retrieve_potential_friends(
             username, friends, prev_first_name, prev_last_name, prev_residential_college, prev_class_year, prev_gender, prev_orientation)
 
@@ -190,10 +179,10 @@ def add_friends():
 @login_required
 def inbox():
     """inbox page"""
+    username = session["username"]
     if request.method == 'GET':
-        dummy_inbox_data = get_matches_in_inbox(session["username"])
-        # dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
-        return render_template('inbox.html', username=session["username"], inbox_data = dummy_inbox_data)
+        inbox_data = get_matches_in_inbox(username)
+        return render_template('inbox.html', username=username, inbox_data = inbox_data)
     else:
         match_status = request.form['Status']
         if match_status == "Accept":
@@ -203,26 +192,25 @@ def inbox():
     
         print("matched boolean", matched_boolean)
         match_user = request.form['potential_match']
-        update_inbox(match_user, session["username"], matched_boolean)
+        update_inbox(username, match_user, matched_boolean)
         print(match_user, "match user")
         #update the database accept/decline status to either True or False for that match username
-        dummy_inbox_data = get_matches_in_inbox(session["username"])
-        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
-        return render_template('inbox.html', username=session["username"], inbox_data = dummy_inbox_data)
+        inbox_data = get_matches_in_inbox(username)
+        # dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        return render_template('inbox.html', username=username, inbox_data = inbox_data)
 
     # format for dummy data
     # [matched_user1, matched_user2, matched_boolean]
     # make sure the user names are actually real usernames: these are just for example
     # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
 
-@app.route('/inbox/view_profile', methods=['GET'])
+@app.route('/view_profile', methods=['GET'])
 def view_profile():
     """view matches' profile info"""
     match = request.args.get('match')
+    username = session["username"]
     dict_info = retrieve_profile_info(match)
-    matched_boolean = get_matched_boolean(session["username"], match)
-    return render_template('view_profile.html', username=session["username"],
-                           matched_boolean=matched_boolean,
+    return render_template('view_profile.html', username=username,
                            first_name=dict_info["first_name"],
                            last_name=dict_info["last_name"],
                            number=dict_info["number"],
@@ -235,23 +223,22 @@ def view_profile():
 @login_required
 def match():
     """match page"""
+    username = session["username"]
     if request.method == "GET":
-        my_friends = get_my_friends(session["username"])
-        return render_template('match.html', username=session["username"], my_friends=my_friends)
+        my_friends = get_my_friends(username)
+        return render_template('match.html', username=username, my_friends=my_friends)
     else:
-
-        print("does this return")
         match1_username = request.form['match1_username']
         print("match1_username", match1_username)
         match2_username = request.form['match2_username']
         print("match2_username", match2_username)
-        match_users(session["username"], match1_username, match2_username)
+        match_users(username, match1_username, match2_username)
 
-        my_friends = get_my_friends(session["username"])
+        my_friends = get_my_friends(username)
         friend_username = request.args.get('friend_username')
         potential_matches = get_potential_matches(friend_username)
         print(potential_matches)
-        return render_template('match.html', username=session["username"], my_friends=my_friends)
+        return render_template('match.html', username=username, my_friends=my_friends)
 
 @app.route("/logout")
 def logout():
