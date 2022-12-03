@@ -15,8 +15,8 @@
                         {% if match[1] is none %}
                             <tr>
                                 <td>{{match[2]}} {{match[3]}}</td>
-                                <td><a href="{{username}}/view_profile?match={{match[0]}}">View Profile</a></td>
-                                <form name="match" action="{{ url_for('inbox', username=username) }}" method="POST">
+                                <td><a href="/view_profile?match={{match[0]}}">View Profile</a></td>
+                                <form name="match" action="{{ url_for('inbox') }}" method="POST">
                                     <td><label><input type="radio" name="Status" value="Accept" id="Accept">Accept</label></td>
                                     <td><label><input type="radio" name="Status" value="Decline" id="Decline">Decline</label></td>
                                     <td><button type=”submit” name="potential_match" value="{{match[0]}}">Submit</button></td>
@@ -36,7 +36,7 @@
                         {% if match[1] == 1 %}
                             <tr>
                                 <td>{{match[2]}} {{match[3]}}</td>
-                                <td><a href="{{username}}/view_profile?match={{match[0]}}">View Profile</a></td>
+                                <td><a href="/view_profile?match={{match[0]}}">View Profile</a></td>
                                 <td>Contact: {{match[4]}}</td>
                             </tr>
                         {%endif%}

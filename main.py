@@ -202,7 +202,7 @@ def inbox():
     # make sure the user names are actually real usernames: these are just for example
     # example dummy_inbox_data = [["anwu8", "anwu888", None], ["anwu8", "anwu888", True], ["anwu8", "anwu888", False]]
 
-@app.route('/inbox/view_profile', methods=['GET'])
+@app.route('/view_profile', methods=['GET'])
 def view_profile():
     """view matches' profile info"""
     match = request.args.get('match')
