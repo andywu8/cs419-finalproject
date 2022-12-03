@@ -50,6 +50,7 @@ def profile():
     """profile page"""
     confirmation_message = None
     show_header = True
+    print("check profile")
     if request.method == 'POST':
         phone_number = request.form.get('phone_number')
         residential_college = request.form.get('residential_college')
@@ -115,8 +116,11 @@ def signup():
         user_exists = check_user_exists(username)
 
         if not user_exists:
+            print("check")
             insert_user(first_name, last_name, username, generate_password_hash(password))
-            return redirect(url_for('profile', username=username))
+            print("check1")
+            session["username"] = username
+            return redirect(url_for('profile'))
         else:
             error_messages.append("Username already exists")
 
