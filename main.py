@@ -139,8 +139,8 @@ def add_friends():
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
 
-        # print("friends", friends)
         friends = get_my_friends(username)
+        #print("friends", friends)
 
         potential_friends = retrieve_potential_friends(
             username, friends, first_name, last_name, residential_college, class_year, gender, orientation)
@@ -166,7 +166,7 @@ def add_friends():
 
         add_friend(username, friend_username)
         friends = get_my_friends(username)
-        # print("friends", friends)
+        #print("friends", friends)
         potential_friends = retrieve_potential_friends(
             username, friends, prev_first_name, prev_last_name, prev_residential_college, prev_class_year, prev_gender, prev_orientation)
 
