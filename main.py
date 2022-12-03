@@ -90,22 +90,6 @@ def profile():
                            show_header=show_header)
 
 
-# @app.route('/dashboard/<username>', methods=['POST', 'GET'])
-# def dashboard(username):
-#     """dashboard page"""
-#     if request.method == 'POST':
-#         residential_college = request.form.get('residential_college')
-#         class_year = request.form.get('class_year')
-#         gender = request.form.get('gender')
-#         orientation = request.form.get('orientation')
-#         match_preference = request.form.get('match_preference')
-
-#         edit_profile_info(username, residential_college,
-#                           class_year, gender, orientation, match_preference)
-
-#     return render_template('dashboard.html', username=username)
-
-
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     """signup page"""
@@ -172,19 +156,12 @@ def add_friends():
         response.set_cookie('prev_orientation', orientation)
         return response
     else:
-        print("check here")
         prev_first_name = request.cookies.get('prev_first_name')
-        print("prev_first_name", prev_first_name)
         prev_last_name = request.cookies.get('prev_last_name')
-        print("prev_last_name", prev_last_name)
         prev_residential_college = request.cookies.get('prev_residential_college')
-        print("prev_residential_college", prev_residential_college)
         prev_class_year = request.cookies.get('prev_class_year')
-        print("prev_class_year", prev_class_year)
         prev_gender =  request.cookies.get('prev_gender')
-        print("prev_gender", prev_gender)
         prev_orientation = request.cookies.get('prev_orientation')
-        print("prev_orientation", prev_orientation)
         friend_username = request.args.get('friend_username')
 
         add_friend(username, friend_username)
@@ -217,7 +194,7 @@ def inbox():
         print(match_user, "match user")
         #update the database accept/decline status to either True or False for that match username
         dummy_inbox_data = get_matches_in_inbox(session["username"])
-        dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
+        # dummy_inbox_data = [["adl55", "ann1234", None], ["adl55", "ann", None], ["adl55", "ann1", True], ["adl55", "annettelee", False]]
         return render_template('inbox.html', username=session["username"], inbox_data = dummy_inbox_data)
 
     # format for dummy data
@@ -229,10 +206,9 @@ def inbox():
 def view_profile():
     """view matches' profile info"""
     match = request.args.get('match')
+    username = session["username"]
     dict_info = retrieve_profile_info(match)
-    matched_boolean = get_matched_boolean(session["username"], match)
-    return render_template('view_profile.html', username=session["username"],
-                           matched_boolean=matched_boolean,
+    return render_template('view_profile.html', username=username,
                            first_name=dict_info["first_name"],
                            last_name=dict_info["last_name"],
                            number=dict_info["number"],
@@ -240,33 +216,6 @@ def view_profile():
                            class_year=dict_info["class_year"],
                            gender=dict_info["gender"],
                            orientation=dict_info["orientation"])
-
-# @app.route('/inbox/<username>/view_potential', methods=['GET'])
-# def view_potential(username):
-#     """view potential matches' profile info"""
-#     potential_match = request.args.get('potential_match')
-#     dict_info = retrieve_profile_info(potential_match)
-#     return render_template('view_potential.html', username=username,
-#                            first_name=dict_info["first_name"],
-#                            last_name=dict_info["last_name"],
-#                            college=dict_info["college"],
-#                            class_year=dict_info["class_year"],
-#                            gender=dict_info["gender"],
-#                            orientation=dict_info["orientation"])
-
-# @app.route('/inbox/<username>/view_matched', methods=['GET'])
-# def view_matched(username):
-#     """view matches' profile info"""
-#     match = request.args.get('match')
-#     dict_info = retrieve_profile_info(match)
-#     return render_template('view_matched.html', username=username,
-#                            first_name=dict_info["first_name"],
-#                            last_name=dict_info["last_name"],
-#                            number=dict_info["number"],
-#                            college=dict_info["college"],
-#                            class_year=dict_info["class_year"],
-#                            gender=dict_info["gender"],
-#                            orientation=dict_info["orientation"])
 
 
 @app.route('/match', methods=['POST', 'GET'])
@@ -277,6 +226,7 @@ def match():
         my_friends = get_my_friends(session["username"])
         return render_template('match.html', username=session["username"], my_friends=my_friends)
     else:
+        print("check this")
         match1_username = request.form['match1_username']
         print("match1_username", match1_username)
         match2_username = request.form['match2_username']

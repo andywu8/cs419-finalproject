@@ -37,32 +37,12 @@
                             <tr>
                                 <td>{{match[2]}} {{match[3]}}</td>
                                 <td><a href="{{username}}/view_profile?match={{match[0]}}">View Profile</a></td>
-                                <!-- <td></td>
-                                <td></td>
-                                <td>Contact: {{match[4]}}</td> -->
+                                <td>Contact: {{match[4]}}</td>
                             </tr>
                         {%endif%}
                     {% endfor %}
                 </thead>
             </table>
         </div>
-        <!-- <div class="rejected">
-            <table id="rejected-datatable">
-                <thead>
-                    <tr>
-                        <th>Rejected Matches</th>
-                    </tr>
-                    {% for match in inbox_data %}
-                        {% if match[1] == 0 %}
-                            <tr>
-                                <td>{{match[0]}}</td>
-                                <td>{{match[2]}}</td>
-                                <td>{{match[3]}}</td>
-                            </tr>
-                        {%endif%}
-                    {% endfor %}
-                </thead>
-            </table>
-        </div> -->
     </body>
 </html>
