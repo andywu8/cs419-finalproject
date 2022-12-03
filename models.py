@@ -7,14 +7,16 @@ def login(username, password):
     query = "SELECT count(*) FROM users WHERE username = ?"
     cur.execute(query, [username])
     (num_users_with_username_and_password,) = cur.fetchone()
-    query = "SELECT password FROM users WHERE username = ?"
-    cur.execute(query, [username])
-    (hashed_password,) = cur.fetchone()
-    con.commit()
-    con.close()
-    if num_users_with_username_and_password > 0 and check_password_hash(hashed_password, password):
-        return True
+    if num_users_with_username_and_password > 0:
+        query = "SELECT password FROM users WHERE username = ?"
+        cur.execute(query, [username])
+        (hashed_password,) = cur.fetchone()
+        con.commit()
+        con.close()
+        if check_password_hash(hashed_password, password):
+            return True
     else:
+        print('got here')
         return False
 
 

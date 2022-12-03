@@ -245,6 +245,16 @@ def match():
         print(potential_matches)
         return render_template('match.html', username=session["username"], my_friends=my_friends)
 
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
+
 
 if __name__ == '__main__':
     """runs the application on a server"""
