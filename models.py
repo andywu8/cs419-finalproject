@@ -276,41 +276,6 @@ def get_potential_matches(friend_username):
     con.close()
     return matches
 
-def get_your_decisions(username):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "SELECT matched_user1, user2_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
-    query += "JOIN users on inbox.matched_user1 = users.username "
-    query += "WHERE inbox.matched_user2 = ?"
-    cur.execute(query, [username])
-    your_decisions = cur.fetchall()
-    query = "SELECT matched_user2, user1_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
-    query += "JOIN users on inbox.matched_user2 = users.username "
-    query += "WHERE inbox.matched_user1 = ?"
-    cur.execute(query, [username])
-    your_decisions += cur.fetchall()
-    print("your decisions are", your_decisions)
-    con.close()
-    return your_decisions
-
-def get_their_decisions(username):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "SELECT matched_user1, user1_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
-    query += "JOIN users on inbox.matched_user1 = users.username "
-    query += "WHERE inbox.matched_user2 = ?"
-    cur.execute(query, [username])
-    their_decisions = cur.fetchall()
-    query = "SELECT matched_user2, user2_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
-    query += "JOIN users on inbox.matched_user2 = users.username "
-    query += "WHERE inbox.matched_user1 = ?"
-    cur.execute(query, [username])
-    their_decisions += cur.fetchall()
-    print("their_decisions are", their_decisions)
-    con.close()
-
-    return their_decisions
-
 def get_matches_in_inbox(username):
     print("username in get matches", username)
     con = sql.connect("database.db")
@@ -334,18 +299,3 @@ def get_matches_in_inbox(username):
 
     return matches
 
-def get_matched_boolean(user1, user2):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "SELECT user1_matched_boolean, user2_matched_boolean from inbox WHERE matched_user1 = ? AND matched_user2 = ?"
-    cur.execute(query, (user1, user2))
-    user1_matched_boolean, user2_matched_boolean = cur.fetchone()
-    print("user1_matched_boolean", user1_matched_boolean)
-    print("user2_matched_boolean", user2_matched_boolean)
-    con.close()
-    return user1_matched_boolean, user2_matched_boolean
-
-    # if matched_boolean is not None:
-    #     return matched_boolean[0]
-    # else:
-    #     return matched_boolean

@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, make_response, redirect, url_for, session
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox, get_matched_boolean, get_your_decisions, get_their_decisions
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox
 from helper import login_required
 from tempfile import mkdtemp
 from flask_session import Session
