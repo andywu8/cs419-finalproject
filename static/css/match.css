@@ -80,7 +80,7 @@ table tr:hover td {
     text-align: center;
 }
 
-.match-button {
+/* .match-button {
     box-sizing: border-box;
     flex-direction: row;
     margin: auto;
@@ -103,6 +103,15 @@ table tr:hover td {
     text-align: center;
     letter-spacing: 0.41px;
     color: #404040;
+} */
+
+.match-button {
+    flex-direction: row;
+}
+
+.match-button img {
+    width: 150px;
+    height: auto;
 }
 
 .friend-item {
