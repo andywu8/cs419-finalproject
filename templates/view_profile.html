@@ -5,16 +5,13 @@
     </head>
     <body>
         <h1>{{first_name}} {{last_name}}</h1>
-        {% if matched_boolean == 1 %}
-            <b>Contact info: </b>{{number}}<br><br>
-        {%endif%}
         <b>Residential college: </b>{{college}}<br>
         <b>Class Year: </b>{{class_year}}<br>
         <b>Gender: </b>{{gender}}<br>
         <b>Sexual Orientation: </b>{{orientation}}
         <br>
         <br>
-        <a href="/inbox/{{username}}">Return to inbox</a>
+        <a href="/inbox">Return to inbox</a>
         <br>
     </body>
 </html>
