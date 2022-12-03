@@ -195,11 +195,11 @@ def retrieve_users():
     return users
 
 
-def edit_profile_info(username, phone_number, residential_college, class_year, gender, orientation, match_preference):
+def edit_profile_info(username, first_name, last_name, phone_number, residential_college, class_year, gender, orientation, match_preference):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "UPDATE users SET phone_number = ?, college = ?, class_year = ?, gender = ?, orientation = ?, preference = ? WHERE username = ?"
-    cur.execute(query, [phone_number, residential_college, class_year,
+    query = "UPDATE users SET first_name = ?, last_name = ?, phone_number = ?, college = ?, class_year = ?, gender = ?, orientation = ?, preference = ? WHERE username = ?"
+    cur.execute(query, [first_name, last_name, phone_number, residential_college, class_year,
                 gender, orientation, match_preference, username])
     con.commit()
     con.close()

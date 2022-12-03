@@ -52,6 +52,8 @@ def profile():
     show_header = True
     print("check profile")
     if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
         phone_number = request.form.get('phone_number')
         residential_college = request.form.get('residential_college')
         class_year = request.form.get('class_year')
@@ -59,10 +61,12 @@ def profile():
         orientation = request.form.get('orientation')
         match_preference = request.form.get('match_preference')
 
-        edit_profile_info(session["username"], phone_number, residential_college,
+        edit_profile_info(session["username"], first_name, last_name, phone_number, residential_college,
                           class_year, gender, orientation, match_preference)
         confirmation_message = "Profile has been updated"
         return render_template('profile.html', username=session["username"], 
+                                firstname = first_name,
+                                lastname = last_name,
                                 number=phone_number,
                                 college=residential_college,
                                 class_year=class_year,
@@ -75,6 +79,8 @@ def profile():
     if dict_info["number"] == None:
         show_header = False
     return render_template('profile.html', username=session["username"],
+                           firstname=dict_info["first_name"],
+                           lastname=dict_info["last_name"],
                            number=dict_info["number"],
                            college=dict_info["college"],
                            class_year=dict_info["class_year"],
