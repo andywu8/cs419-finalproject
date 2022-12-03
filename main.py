@@ -239,6 +239,7 @@ def match():
         my_friends = get_my_friends(session["username"])
         return render_template('match.html', username=session["username"], my_friends=my_friends)
     else:
+
         print("does this return")
         match1_username = request.form['match1_username']
         print("match1_username", match1_username)

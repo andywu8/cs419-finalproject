@@ -24,10 +24,8 @@ def update_inbox(user1, user2, matched_boolean):
     print("check that update inbox is working")
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "UPDATE inbox SET matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ?"
+    query = "UPDATE inbox SET user1_matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ?"
     cur.execute(query, (matched_boolean, user1, user2))
-    query = "UPDATE inbox SET matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ?"
-    cur.execute(query, (matched_boolean, user2, user1))
     con.commit()
     con.close()
 
@@ -75,6 +73,9 @@ def add_friend(username, friend_username):
     cur = con.cursor()
     query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
     cur.execute(query, [username, friend_username])
+    cur.execute(query, [friend_username, username])
+
+
     con.commit()
     con.close()
 
@@ -257,7 +258,7 @@ def get_potential_matches(friend_username):
 def get_matches_in_inbox(username):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT matched_user1, matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
+    query = "SELECT matched_user1, user1_matched_boolean, user2_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
     query += "JOIN users on inbox.matched_user1 = users.username "
     query += "WHERE inbox.matched_user2 = ?"
     cur.execute(query, [username])
@@ -266,7 +267,7 @@ def get_matches_in_inbox(username):
 
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT matched_user2, matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
+    query = "SELECT matched_user2, user1_matched_boolean, user2_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
     query += "JOIN users on inbox.matched_user2 = users.username "
     query += "WHERE inbox.matched_user1 = ? "
 
@@ -280,13 +281,15 @@ def get_matches_in_inbox(username):
 def get_matched_boolean(user1, user2):
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "SELECT matched_boolean from inbox WHERE matched_user1 = ? AND matched_user2 = ?"
+    query = "SELECT user1_matched_boolean, user2_matched_boolean from inbox WHERE matched_user1 = ? AND matched_user2 = ?"
     cur.execute(query, (user1, user2))
-    matched_boolean = cur.fetchone()
-    print(matched_boolean)
+    user1_matched_boolean, user2_matched_boolean = cur.fetchone()
+    print("user1_matched_boolean", user1_matched_boolean)
+    print("user2_matched_boolean", user2_matched_boolean)
     con.close()
+    return user1_matched_boolean, user2_matched_boolean
 
-    if matched_boolean is not None:
-        return matched_boolean[0]
-    else:
-        return matched_boolean
+    # if matched_boolean is not None:
+    #     return matched_boolean[0]
+    # else:
+    #     return matched_boolean

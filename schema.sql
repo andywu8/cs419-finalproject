@@ -35,7 +35,8 @@ drop table if exists inbox;
     username text not null,
     matched_user1 text not null,
     matched_user2 text not null,
-    matched_boolean boolean, 
+    user1_matched_boolean boolean, 
+    user2_matched_boolean boolean,
     FOREIGN KEY (username) references users(username)
 );
 
