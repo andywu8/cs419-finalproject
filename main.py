@@ -1,6 +1,6 @@
 """main file to run flask app"""
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, make_response, redirect, url_for
 from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox
 
 app = Flask(__name__)
@@ -122,6 +122,34 @@ def find_friends(username):
 @app.route('/add_friends/<username>', methods=['POST', 'GET'])
 def add_friends(username):
     """add friends page"""
+    prev_department= request.cookies.get('prev_department')
+    prev_course_number= request.cookies.get('prev_course_number')
+    prev_subject= request.cookies.get('prev_subject')
+    prev_title= request.cookies.get('prev_title')
+
+    if len(request.args) == 0:
+        if prev_department is None:
+            prev_department = ''
+        else:
+            department = prev_department
+        if prev_course_number is None:
+            prev_course_number = ''
+        else:
+            course_number = prev_course_number
+        if prev_subject is None:
+            prev_subject = ''
+        else:
+            subject = prev_subject
+        if prev_title is None:
+            prev_title = ''
+        else:
+            title = prev_title
+    else:
+        department = request.args.get('Department')
+        course_number = request.args.get('Course Number')
+        subject = request.args.get('Subject')
+        title = request.args.get('Title')
+
     if request.method == 'GET':
         first_name = request.args.get('first_name')
         last_name = request.args.get('last_name')
@@ -129,15 +157,48 @@ def add_friends(username):
         class_year = request.args.get('class_year')
         gender = request.args.get('gender')
         orientation = request.args.get('orientation')
+
+        # print("friends", friends)
+        friends = get_my_friends(username)
+
+        potential_friends = retrieve_potential_friends(
+            username, friends, first_name, last_name, residential_college, class_year, gender, orientation)
+
+        html = render_template('add_friends.html', username=username, potential_friends=potential_friends)
+        response = make_response(html)
+
+        response.set_cookie('prev_first_name', first_name)
+        response.set_cookie('prev_last_name', last_name)
+        response.set_cookie('prev_residential_college', residential_college)
+        response.set_cookie('prev_class_year', class_year)
+        response.set_cookie('prev_gender', gender)
+        response.set_cookie('prev_orientation', orientation)
+
+        return response
+    else:
+        print("check here")
+        prev_first_name = request.cookies.get('first_name')
+        print("prev_first_name", prev_first_name)
+        prev_last_name = request.cookies.get('last_name')
+        print("prev_last_name", prev_last_name)
+        prev_residential_college = request.cookies.get('residential_college')
+        print("prev_residential_college", prev_residential_college)
+        prev_class_year = request.cookies.get('class_year')
+        print("prev_class_year", prev_class_year)
+        prev_gender =  request.cookies.get('gender')
+        print("prev_gender", prev_gender)
+        prev_orientation = request.cookies.get('orientation')
+        print("prev_orientation", prev_orientation)
+        friend_username = request.args.get('friend_username')
+
+
+        add_friend(username, friend_username)
         friends = get_my_friends(username)
         # print("friends", friends)
         potential_friends = retrieve_potential_friends(
-            username, friends, first_name, last_name, residential_college, class_year, gender, orientation)
+            username, friends, prev_first_name, prev_last_name, prev_residential_college, prev_class_year, prev_gender, prev_orientation)
+
         return render_template('add_friends.html', username=username, potential_friends=potential_friends)
-    else:
-        friend_username = request.args.get('friend_username')
-        add_friend(username, friend_username)
-        return render_template('add_friends.html', username=username)
 
 
 @app.route('/inbox/<username>', methods=['POST', 'GET'])
