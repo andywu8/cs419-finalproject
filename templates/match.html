@@ -15,17 +15,18 @@
             <div class="friend-1-table">
                 <table>
                     <p class="friend-title">Friend 1</p>
-                    <select id="myform-friend1" name='category' multiple class="form-control"> // addition here
+                    <select id="myform-friend1" name='category' multiple class="form-control"> 
                         {% for friend in my_friends: %}
                             <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
                         {% endfor %}
                     </select>
                 </table>
             </div>
+
             <div class="friend-2-table">
                 <table>
                     <p class="friend-title">Friend 2</p>
-                    <select id="myform-friend2" name='category' multiple class="form-control"> // addition here
+                    <select id="myform-friend2" name='category' multiple class="form-control"> 
                         {% for friend in my_friends: %}
                             <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
                         {% endfor %}
@@ -40,6 +41,28 @@
     <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         'use strict';
+        $(function() {
+            $("#myform-friend1").change(function(){
+            var e = document.getElementById("myform-friend1");
+            var match1_username = e.options[e.selectedIndex].value;
+            recommendations = getRecommendations(match1_username);
+            console.log(match1_username);
+            });
+        });
+
+        function getRecommendations(match1_username){
+            localStorage.setItem("myform-friend1", $(this).val());
+            let request = null;
+            request = $.ajax({
+                url: '/match/{{username}}',
+                type: 'POST',
+                data: {
+                    'match1_username': match1_username,
+                    'match2_username': match2_username
+                }
+            });
+        }
+
 
         function get_match_results(match1_username, match2_username) {
             let request = null;
