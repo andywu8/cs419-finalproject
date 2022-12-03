@@ -65,9 +65,10 @@
 
 
         function get_match_results(match1_username, match2_username) {
+            console.log("does this work");
             let request = null;
             request = $.ajax({
-                url: '/match/{{username}}',
+                url: '/match',
                 type: 'POST',
                 data: {
                     'match1_username': match1_username,

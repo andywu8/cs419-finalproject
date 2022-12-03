@@ -1,5 +1,5 @@
 import sqlite3 as sql
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username, password):
     con = sql.connect("database.db")
@@ -52,8 +52,8 @@ def insert_dummy_users():
     con = sql.connect("database.db")
     cur = con.cursor()
     query = "INSERT INTO users (first_name, last_name, username, password, phone_number) VALUES (?, ?, ?, ?, ?), (?, ?, ?, ?, ?), (?, ?, ?, ?, ?)"
-    args = ["John", "Doe", "jdoe", "password", "100-000-0000", "John1", "Doe1", "jdoe",
-            "password", "100-000-0000", "John2", "Doe2", "jdoe2", "password", "100-000-0000"]
+    args = ["John", "Doe", "jdoe", generate_password_hash("password"), "100-000-0000", "John1", "Doe1", generate_password_hash("jdoe1"),
+            "password", "100-000-0000", "John2", "Doe2", "jdoe2", generate_password_hash("password"), "100-000-0000"]
     cur.execute(query, args)
     con.commit()
     con.close()

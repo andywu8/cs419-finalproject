@@ -231,34 +231,6 @@ def view_profile():
                            gender=dict_info["gender"],
                            orientation=dict_info["orientation"])
 
-# @app.route('/inbox/<username>/view_potential', methods=['GET'])
-# def view_potential(username):
-#     """view potential matches' profile info"""
-#     potential_match = request.args.get('potential_match')
-#     dict_info = retrieve_profile_info(potential_match)
-#     return render_template('view_potential.html', username=username,
-#                            first_name=dict_info["first_name"],
-#                            last_name=dict_info["last_name"],
-#                            college=dict_info["college"],
-#                            class_year=dict_info["class_year"],
-#                            gender=dict_info["gender"],
-#                            orientation=dict_info["orientation"])
-
-# @app.route('/inbox/<username>/view_matched', methods=['GET'])
-# def view_matched(username):
-#     """view matches' profile info"""
-#     match = request.args.get('match')
-#     dict_info = retrieve_profile_info(match)
-#     return render_template('view_matched.html', username=username,
-#                            first_name=dict_info["first_name"],
-#                            last_name=dict_info["last_name"],
-#                            number=dict_info["number"],
-#                            college=dict_info["college"],
-#                            class_year=dict_info["class_year"],
-#                            gender=dict_info["gender"],
-#                            orientation=dict_info["orientation"])
-
-
 @app.route('/match', methods=['POST', 'GET'])
 @login_required
 def match():
@@ -267,6 +239,7 @@ def match():
         my_friends = get_my_friends(session["username"])
         return render_template('match.html', username=session["username"], my_friends=my_friends)
     else:
+        print("does this return")
         match1_username = request.form['match1_username']
         print("match1_username", match1_username)
         match2_username = request.form['match2_username']
