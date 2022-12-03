@@ -177,17 +177,17 @@ def add_friends(username):
         return response
     else:
         print("check here")
-        prev_first_name = request.cookies.get('first_name')
+        prev_first_name = request.cookies.get('prev_first_name')
         print("prev_first_name", prev_first_name)
-        prev_last_name = request.cookies.get('last_name')
+        prev_last_name = request.cookies.get('prev_last_name')
         print("prev_last_name", prev_last_name)
-        prev_residential_college = request.cookies.get('residential_college')
+        prev_residential_college = request.cookies.get('prev_residential_college')
         print("prev_residential_college", prev_residential_college)
-        prev_class_year = request.cookies.get('class_year')
+        prev_class_year = request.cookies.get('prev_class_year')
         print("prev_class_year", prev_class_year)
-        prev_gender =  request.cookies.get('gender')
+        prev_gender =  request.cookies.get('prev_gender')
         print("prev_gender", prev_gender)
-        prev_orientation = request.cookies.get('orientation')
+        prev_orientation = request.cookies.get('prev_orientation')
         print("prev_orientation", prev_orientation)
         friend_username = request.args.get('friend_username')
 
