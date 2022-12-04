@@ -39,7 +39,8 @@
         <div class="match-button">
             <button onclick="match()">Match</button>
         </div>
-
+        <div id="match-message">
+        </div>
     <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         'use strict';
@@ -88,6 +89,8 @@
         }
         function handleMatchResponse(response){
             $('#myform-friend2').html(response);
+            $('#match-message').html('SUCCESSFUL MATCH!');
+            
             console.log(response);
         }
 
