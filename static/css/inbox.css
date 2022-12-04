@@ -7,6 +7,8 @@ body {
 
 .inbox-container {
     align-items: center;
+    display: flex;
+    margin: auto;
 }
 
 .inbox-title {
@@ -36,6 +38,7 @@ body {
 .pending-table {
     display: inline-block;
     vertical-align: top;
+    margin: auto;
 }
 
 .pending-table:not(:empty) {
@@ -105,4 +108,29 @@ th:first-child {
 td.selected:last-child,
 th:last-child {
   border-radius: 0 30px 30px 0;
+}
+
+button {
+    box-sizing: border-box;
+    flex-direction: row;
+    margin: auto;
+    align-items: center;
+    padding: 4px 15px;
+    gap: 8px;
+    width: 100px;
+    height: 35px;
+    background: #F8F6FC;
+    border: 1px solid #EBD5D5;
+    border-radius: 17px;
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+    font-family: 'M PLUS Rounded 1c';
+    font-style: normal;
+    font-size: 20px;
+    line-height: 22px;
+    display: flex;
+    text-align: center;
+    letter-spacing: 0.41px;
+    color: #404040;
 }
