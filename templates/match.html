@@ -15,7 +15,7 @@
             <div class="friend-1-table">
                 <table>
                     <p class="friend-title">Friend 1</p>
-                    <select id="myform-friend1" name='category' multiple class="form-control"> 
+                    <select id="myform-friend1" name='category' multiple class="form-control">
                         {% for friend in my_friends: %}
                         <option class="friend-item" value={{friend[2]}} selected>{{friend[0] + ' ' + friend[1]}}</option>
 
@@ -29,19 +29,14 @@
             <div class="friend-2-table">
                 <table>
                     <p class="friend-title">Friend 2</p>
+                    <select id="myform-friend2" name='category' multiple class="form-control">
+                    </select>
                     <div class="recommendations-button">
                         <button onclick="find_recommendations()">Find Recommendations</button>
                     </div>
-                    <select id="myform-friend2" name='category' multiple class="form-control">
-                    </select>
-
                 </table>
             </div>
         </div>
-        <!-- <div class="match-button">
-            <button style="background: url(static/heart-png-15.png)" onclick="match()">Match</button>
-        </div>
-        -->
 
     <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -59,7 +54,7 @@
             var e = document.getElementById("myform-friend1");
             var match1_username = e.options[e.selectedIndex].value;
             let request = null;
-            
+
             request = $.ajax({
                 url: '/match',
                 type: 'POST',
@@ -92,7 +87,7 @@
         function handleMatchResponse(response){
             $('#myform-friend2').html(response);
             $('#match-message').html('SUCCESSFUL MATCH!');
-            
+
             console.log(response);
         }
 

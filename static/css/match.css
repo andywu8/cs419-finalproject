@@ -80,38 +80,37 @@ table tr:hover td {
     text-align: center;
 }
 
-/* .match-button {
-    box-sizing: border-box;
-    flex-direction: row;
-    margin: auto;
-    align-items: center;
-    padding: 4px 15px;
-    gap: 8px;
-    width: 150px;
-    height: 35px;
-    background: #F8F6FC;
-    border: 1px solid #EBD5D5;
-    border-radius: 17px;
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    font-family: 'M PLUS Rounded 1c';
-    font-style: normal;
-    font-size: 20px;
-    line-height: 22px;
-    display: flex;
+button {
+    background-color: #F56485;
+    border: none;
+    color: white;
     text-align: center;
-    letter-spacing: 0.41px;
-    color: #404040;
-} */
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c';
+    padding: 10px 10px;
+  }
 
 .match-button {
     flex-direction: row;
+    cursor: pointer;
+}
+
+.match-button:hover {
+    resize: 110%;
 }
 
 .match-button img {
     width: 150px;
     height: auto;
+}
+
+.match-button img:hover {
+    transform: scale(1.1);
 }
 
 .friend-item {

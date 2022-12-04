@@ -114,6 +114,10 @@ label {
     text-align: center;
     letter-spacing: 0.41px;
     color: #404040;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: pointer;
 }
 
 .add-friends-container {
@@ -210,4 +214,8 @@ th:last-child {
     text-align: center;
     letter-spacing: 0.41px;
     color: #404040;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: pointer;
 }
