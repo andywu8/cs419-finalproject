@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link href="static/css/main.css" rel="stylesheet" type="text/css" media="all">
+        <link href="static/css/view_profile.css" rel="stylesheet" type="text/css" media="all">
+        <link href='https://fonts.googleapis.com/css?family=Domine' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=M PLUS Rounded 1c' rel='stylesheet'>
+
     </head>
     <body>
-        <h1>{{first_name}} {{last_name}}</h1>
-        <b>Residential college: </b>{{college}}<br>
-        <b>Class Year: </b>{{class_year}}<br>
-        <b>Gender: </b>{{gender}}<br>
-        <b>Sexual Orientation: </b>{{orientation}}
+        {% include "header.html" %}
+        <h1 class="title">{{first_name}} {{last_name}}</h1>
+        <p>Residential college: <b>{{college}}</b></p>
+        <p>Class Year: <b>{{class_year}}</b></p>
+        <p>Gender: <b>{{gender}}</b></p>
+        <p>Sexual Orientation: <b>{{orientation}}</b></p>
+
         <br>
         <br>
         <a href="/inbox">Return to inbox</a>
