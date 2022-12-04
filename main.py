@@ -1,7 +1,7 @@
 """main file to run flask app"""
 
 from flask import Flask, render_template, request, make_response, redirect, url_for, session
-from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, get_potential_matches, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox
+from models import login, insert_friend, retrieve_potential_friends, retrieve_users, check_user_exists, insert_user, edit_profile_info, add_friend, get_my_friends, insert_dummy_users, match_users, retrieve_profile_info, get_matches_in_inbox, update_inbox, get_match_recommendations, get_matches_made_by_me
 from helper import login_required
 from tempfile import mkdtemp
 from flask_session import Session
@@ -97,7 +97,7 @@ def signup():
     error_messages = []
 
     if request.method == 'POST':
-        insert_dummy_users()
+        # insert_dummy_users()
 
         username = request.form['username']
         password = request.form['password']
@@ -226,19 +226,55 @@ def match():
     username = session["username"]
     if request.method == "GET":
         my_friends = get_my_friends(username)
-        return render_template('match.html', username=username, my_friends=my_friends)
+        match_recommendations = None
+        return render_template('match.html', username=username, my_friends=my_friends, match_recommendations = match_recommendations)
     else:
-        match1_username = request.form['match1_username']
-        print("match1_username", match1_username)
-        match2_username = request.form['match2_username']
-        print("match2_username", match2_username)
-        match_users(username, match1_username, match2_username)
+        if request.form["type_of_post"] == "get_recommendations":
+            print("check it gets here")
+            match1_username = request.form['match1_username']
+            my_made_matches = get_matches_made_by_me(username)
+            my_friends = get_my_friends(username)
+            match_recommendations = get_match_recommendations(username, match1_username, my_made_matches)
+            html = '''
+                <table>
+                <tbody>
+            '''
+            pattern = '''
+            <option class="friend-item" value=%s selected>%s %s</option>
+            '''
 
-        my_friends = get_my_friends(username)
-        friend_username = request.args.get('friend_username')
-        potential_matches = get_potential_matches(friend_username)
-        print(potential_matches)
-        return render_template('match.html', username=username, my_friends=my_friends)
+            for friend in match_recommendations:
+                html += pattern % (friend[2], friend[0], friend[1])
+            html += '''
+                </tbody>
+                </table>
+                '''
+            print("html is", html)
+            response = make_response(html)
+            print("response is", response)
+            return response
+            # return match_recommendations
+            # print("match_recommendations in main", match_recommendations)
+        elif request.form["type_of_post"] == "get_match_results":
+            match1_username = request.form['match1_username']
+            print("match1_username", match1_username)
+            match2_username = request.form['match2_username']
+            print("match2_username", match2_username)
+            match_users(username, match1_username, match2_username)
+            my_friends = get_my_friends(username)
+            match_recommendations = None
+            html = "MATCH SUCCESSFUL"
+            response = make_response(html)
+            return response
+            # response = make_response(render_template('match.html', username=username, my_friends=my_friends, match_recommendations = match_recommendations))
+
+        return render_template('match.html', match1_username=match1_username, username=username, my_friends=my_friends, match_recommendations = match_recommendations)
+
+@app.route('/background_process_test')
+def background_process_test():
+    print ("Hello")
+    return ("nothing")
+
 
 @app.route("/logout")
 def logout():

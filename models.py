@@ -28,7 +28,7 @@ def update_inbox(user1, user2, matched_boolean):
     query = "SELECT * FROM inbox WHERE matched_user1 = ? AND matched_user2 = ? and user1_matched_boolean is NULL"
     cur.execute(query, [user1, user2])
     row = cur.fetchone()
-    print("row 2 is", row)
+    # print("row 2 is", row)
     if row:
         print("check here 1")
         query = "UPDATE inbox SET user1_matched_boolean = ? WHERE matched_user1 = ? AND matched_user2 = ? AND user1_matched_boolean is NULL"
@@ -38,7 +38,7 @@ def update_inbox(user1, user2, matched_boolean):
     query = "SELECT * FROM inbox WHERE matched_user2 = ? AND matched_user1 = ? and user2_matched_boolean is NULL"
     cur.execute(query, [user1, user2])
     row = cur.fetchone()
-    print("row 1 is", row)
+    # print("row 1 is", row)
     if row:
         print("check here 2")
         query = "UPDATE inbox SET user2_matched_boolean = ? WHERE matched_user2 = ? AND matched_user1 = ? AND user2_matched_boolean is NULL"
@@ -63,10 +63,11 @@ def match_users(username, user1, user2):
     row = cur.fetchone()
     while row is not None:
         matches.append([row[0], row[1], row[2]])
-        print("your matches", row)
+        # print("your matches", row)
         row = cur.fetchone()
     con.commit()
     con.close()
+
 
 def insert_dummy_users():
     con = sql.connect("database.db")
@@ -85,6 +86,8 @@ def insert_friend(username, friend):
     cur = con.cursor()
     query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
     cur.execute(query, (username, friend))
+    query = "INSERT INTO friends (username, friend) VALUES (?, ?)"
+    cur.execute(query, (friend, username))
     con.commit()
     con.close()
 
@@ -101,7 +104,6 @@ def add_friend(username, friend_username):
     con.commit()
     con.close()
 
-
 def get_my_friends(username):
     con = sql.connect("database.db")
     cur = con.cursor()
@@ -115,6 +117,38 @@ def get_my_friends(username):
         row = cur.fetchone()
     con.close()
     return friends
+
+def get_match_recommendations(username, user1, my_made_matches):
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    print("check getting match recommendations")
+    # WHERE username IN (SELECT friend from friends WHERE username = ?)
+    query = "SELECT gender, preference FROM users "
+    query += "WHERE username = ?"
+    cur.execute(query, [user1])
+    info = cur.fetchone()
+    user1_gender = info[0]
+    user1_preference = info[1]
+    print("user1 gender is", user1_gender)
+    print("user1 preference is", user1_preference)
+    query = "SELECT first_name, last_name, username FROM users WHERE username IN (SELECT friend from friends WHERE username = ?) "
+    args = []
+    if my_made_matches:
+        for match in my_made_matches:
+            if user1 == match[0]:
+                query += "AND username != ? "
+                args.append(match[1])
+            elif user1 == match[1]:
+                query += "AND username != ? "
+                args.append(match[0])
+    query += "AND username != ? and preference = ? and gender = ?"
+    args += [username, user1, user1_gender, user1_preference]
+    print("query", query)
+    cur.execute(query, args)
+    match_recommendations = cur.fetchall()
+    print("match recommendations", match_recommendations)
+    con.close()
+    return match_recommendations 
 
 
 def retrieve_potential_friends(username, friends, first_name, last_name, residential_college, class_year, gender, orientation):
@@ -253,6 +287,7 @@ def retrieve_users():
     cur = con.cursor()
     cur.execute("SELECT username FROM users")
     users = cur.fetchall()
+
     con.close()
     return users
 
@@ -267,14 +302,6 @@ def edit_profile_info(username, first_name, last_name, phone_number, residential
     con.close()
 
 
-def get_potential_matches(friend_username):
-    con = sql.connect("database.db")
-    cur = con.cursor()
-    query = "SELECT first_name, last_name, username from users WHERE gender IN (SELECT preference from users WHERE username = ?)"
-    cur.execute(query, [friend_username])
-    matches = cur.fetchall()
-    con.close()
-    return matches
 
 def get_matches_in_inbox(username):
     print("username in get matches", username)
@@ -285,17 +312,27 @@ def get_matches_in_inbox(username):
     query += "WHERE inbox.matched_user2 = ?"
     cur.execute(query, [username])
     matches = cur.fetchall()
-    con.close()
     con = sql.connect("database.db")
     cur = con.cursor()
     query = "SELECT matched_user2, user1_matched_boolean, user2_matched_boolean, users.first_name, users.last_name, users.phone_number from inbox "
     query += "JOIN users on inbox.matched_user2 = users.username "
     query += "WHERE inbox.matched_user1 = ? "
-
     cur.execute(query, [username])
     matches += cur.fetchall()
     print("matches are", matches)
     con.close()
+    return matches
 
+def get_matches_made_by_me(username):
+    print("username in get matches made by me", username)
+    con = sql.connect("database.db")
+    cur = con.cursor()
+    query = "SELECT matched_user1, matched_user2 from inbox "
+    query += "JOIN users on inbox.username = users.username "
+    query += "WHERE inbox.username = ?"
+    cur.execute(query, [username])
+    matches = cur.fetchall()
+    con.close()
+    print("my made matches", matches)
     return matches
 

@@ -17,7 +17,8 @@
                     <p class="friend-title">Friend 1</p>
                     <select id="myform-friend1" name='category' multiple class="form-control"> 
                         {% for friend in my_friends: %}
-                            <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
+                        <option class="friend-item" value={{friend[2]}} selected>{{friend[0] + ' ' + friend[1]}}</option>
+
                         {% endfor %}
                     </select>
                 </table>
@@ -26,11 +27,12 @@
             <div class="friend-2-table">
                 <table>
                     <p class="friend-title">Friend 2</p>
-                    <select id="myform-friend2" name='category' multiple class="form-control"> 
-                        {% for friend in my_friends: %}
-                            <option class="friend-item" value={{friend[2]}}>{{friend[0] + friend[1]}}</option>
-                        {% endfor %}
+                    <div class="recommendations-button">
+                        <button onclick="find_recommendations()">Find Recommendations</button>
+                    </div>
+                    <select id="myform-friend2" name='category' multiple class="form-control">
                     </select>
+
                 </table>
             </div>
         </div>
@@ -50,19 +52,24 @@
             });
         });
 
-        function getRecommendations(match1_username){
-            localStorage.setItem("myform-friend1", $(this).val());
+        function find_recommendations(match1_username){
+            var e = document.getElementById("myform-friend1");
+            var match1_username = e.options[e.selectedIndex].value;
             let request = null;
+            
             request = $.ajax({
                 url: '/match',
                 type: 'POST',
                 data: {
-                    'match1_username': match1_username,
-                    'match2_username': match2_username
-                }
+                    'type_of_post': 'get_recommendations',
+                    'match1_username': match1_username
+                },
+                success: handleResponse
             });
         }
-
+        function handleResponse(response){
+            $('#myform-friend2').html(response);
+        }
 
         function get_match_results(match1_username, match2_username) {
             console.log("does this work");
@@ -71,10 +78,17 @@
                 url: '/match',
                 type: 'POST',
                 data: {
+                    'type_of_post': 'get_match_results',
                     'match1_username': match1_username,
                     'match2_username': match2_username
-                }
+                },
+                success: handleMatchResponse
             });
+
+        }
+        function handleMatchResponse(response){
+            $('#myform-friend2').html(response);
+            console.log(response);
         }
 
         function match() {
