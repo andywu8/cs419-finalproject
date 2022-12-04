@@ -24,6 +24,10 @@ body {
   gap: 10px;
 }
 
+.signup-container {
+  gap: 10px;
+}
+
 .home-title {
   display: flex;
   flex-direction: column;
@@ -36,7 +40,7 @@ body {
   font-family: 'Domine';
   font-style: normal;
   font-weight: 700;
-  font-size: 110px;
+  font-size: 90px;
   color: #F8F6FC;
   margin: 0;
 }
@@ -49,7 +53,25 @@ body {
   margin: 0 auto;
 
   width: 450px;
-  height: 400px;
+  height: 470px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+
+  background: #FBF4FF;
+  border-radius: 30px;
+
+  flex-direction: column;
+}
+
+.signup-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  width: 450px;
+  height: 500px;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
 
@@ -65,8 +87,9 @@ body {
   justify-content: center;
 
   margin: 0 auto;
-  margin-bottom: 2%;
-  margin-top: -15%;
+  margin-bottom: 1%;
+  margin-top: 2px;
+  /* margin-top: -10%; */
 }
 
 .login-title p {
@@ -121,7 +144,61 @@ body {
   margin-bottom: 4%;
 }
 
+.signup-box .user-box {
+  box-sizing: border-box;
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 15px;
+  gap: 8px;
+
+  width: 397px;
+  height: 51px;
+
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 17px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+
+  margin-bottom: 4%;
+}
+
 .login-box .user-box input {
+  width: 100%;
+  height: 22px;
+
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 22px;
+  /* identical to box height, or 92% */
+
+  text-align: left;
+  letter-spacing: 0.41px;
+
+  /* Text Secondary */
+
+  color: #9586A8;
+  border: none;
+
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.signup-box .user-box input {
   width: 100%;
   height: 22px;
 
@@ -188,4 +265,11 @@ body {
   text-align: center;
   letter-spacing: 0.41px;
   color: #F8F6FC;
+}
+
+.error p {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-size: 20px;
+  padding-bottom: 5%;
 }

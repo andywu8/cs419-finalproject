@@ -26,18 +26,18 @@
             <input type="submit" class="button" value="Log In"/>
           </div>
         </form>
-        {%if error_messages%}
-          <div>
-            {% for error_msg in error_messages: %}
-              <p>{{error_msg}}</p>
-            {% endfor %}
-          </div>
-        {%endif%}
         <form action="signup" method="get">
           <div class="submit">
             <input type="submit" class="button" value="Create Account"/>
           </div>
         </form>
+        {%if error_messages%}
+          <div class="error">
+            {% for error_msg in error_messages: %}
+              <p>{{error_msg}}</p>
+            {% endfor %}
+          </div>
+        {%endif%}
       </div>
     </div>
   </body>
