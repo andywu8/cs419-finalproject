@@ -72,9 +72,24 @@ def match_users(username, user1, user2):
 def insert_dummy_users():
     con = sql.connect("database.db")
     cur = con.cursor()
-    query = "INSERT INTO users (first_name, last_name, username, password, phone_number) VALUES (?, ?, ?, ?, ?), (?, ?, ?, ?, ?), (?, ?, ?, ?, ?)"
-    args = ["John", "Doe", "jdoe", generate_password_hash("password"), "100-000-0000", "John1", "Doe1", "jdoe1",
-            generate_password_hash("password"), "100-000-0000", "John2", "Doe2", "joe2", generate_password_hash("password"), "100-000-0000"]
+    query = "INSERT INTO users (first_name, last_name, username, password, phone_number, gender, preference) VALUES "
+    query += "(?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?), "
+    query += "(?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?), "
+    query += "(?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?), (?, ?, ?, ?, ?, ?, ?)"
+
+    args = [
+    "Adam", "Smith", "asmith", generate_password_hash("password"), "100-000-0000", "Male", "Female", 
+    "Lily", "Porter", "lporter",generate_password_hash("password"), "100-000-0000",  "Female", "Male", 
+    "John", "Doe", "jdoe", generate_password_hash("password"), "100-000-0000",  "Male", "Female",
+    "Annette", "Lee", "alee", generate_password_hash("password"), "100-000-0000",  "Female", "Male",
+    "Allen", "Chun", "achun", generate_password_hash("password"), "100-000-0000",  "Male", "Female",
+    "Kishan", "Patel", "kpatel", generate_password_hash("password"), "100-000-0000",  "Male", "Female",
+    "Bernard", "Kim", "bkim", generate_password_hash("password"), "100-000-0000",  "Male", "Male",
+    "Kimmy", "Ball", "kball", generate_password_hash("password"), "100-000-0000",  "Female", "Female",
+    "Carter", "Yin", "cyin", generate_password_hash("password"), "100-000-0000",  "Non-binary", "Male",
+
+    ]
+
     cur.execute(query, args)
     con.commit()
     con.close()
@@ -335,4 +350,5 @@ def get_matches_made_by_me(username):
     con.close()
     print("my made matches", matches)
     return matches
+
 

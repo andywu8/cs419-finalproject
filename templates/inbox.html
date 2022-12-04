@@ -21,7 +21,7 @@
                             {% for match in inbox_data %}
                                 {% if match[1] is none %}
                                     <tr>
-                                        <td>{{match[2]}} {{match[3]}}</td>
+                                        <td>{{match[3]}} {{match[4]}}</td>
                                         <td><a href="/view_profile?match={{match[0]}}">View Profile</a></td>
                                         <form name="match" action="{{ url_for('inbox') }}" method="POST">
                                             <td><label><input type="radio" name="Status" value="Accept" id="Accept">Accept</label></td>
@@ -36,16 +36,35 @@
                 </div>
             </div>
             <br />
-            <div class="accepted">
-                <p>Matches</p>
-                <table id="accepted-datatable">
+            <div class="pending">
+                <div class="pending-title">
+                    <p>Awaiting Response from Match</p>
+                <div>
+                <table id="pending-table">
                     <thead>
                         {% for match in inbox_data %}
-                            {% if match[1] == 1 %}
+                            {% if match[1] == 1 and match[2] is none %}
                                 <tr>
-                                    <td>{{match[2]}} {{match[3]}}</td>
+                                    <td>{{match[3]}} {{match[4]}}</td>
                                     <td><a href="/view_profile?match={{match[0]}}">View Profile</a></td>
-                                    <td>Contact: {{match[4]}}</td>
+                                </tr>
+                            {%endif%}
+                        {% endfor %}
+                    </thead>
+                </table>
+            </div>
+            <div class="pending">
+                <div class="pending-title">
+                    <p>Matches</p>
+                <div>
+                <table id="pending-table">
+                    <thead>
+                        {% for match in inbox_data %}
+                            {% if match[1] == 1 and match[2] == 1 %}
+                                <tr>
+                                    <td>{{match[3]}} {{match[4]}}</td>
+                                    <td><a href="/view_profile?match={{match[0]}}">View Profile</a></td>
+                                    <td>Contact: {{match[5]}}</td>
                                 </tr>
                             {%endif%}
                         {% endfor %}
