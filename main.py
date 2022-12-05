@@ -24,7 +24,6 @@ def home():
     confirmation_message = None
     # insert_dummy_users()
 
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -249,9 +248,7 @@ def match():
                 </tbody>
                 </table>
                 '''
-            print("html is", html)
             response = make_response(html)
-            print("response is", response)
             return response
             # return match_recommendations
             # print("match_recommendations in main", match_recommendations)

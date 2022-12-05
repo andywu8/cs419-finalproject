@@ -147,18 +147,21 @@ def get_match_recommendations(username, user1, my_made_matches):
     print("user1 gender is", user1_gender)
     print("user1 preference is", user1_preference)
     query = "SELECT first_name, last_name, username FROM users WHERE username IN (SELECT friend from friends WHERE username = ?) "
-    args = []
+    args = [username]
     if my_made_matches:
         for match in my_made_matches:
+            print("match[0] is", match[0])
+            print("match[1] is", match[1])
             if user1 == match[0]:
                 query += "AND username != ? "
                 args.append(match[1])
             elif user1 == match[1]:
                 query += "AND username != ? "
                 args.append(match[0])
-    query += "AND username != ? and preference = ? and gender = ?"
+    query += "AND username != ? and username != ? and preference = ? and gender = ?"
     args += [username, user1, user1_gender, user1_preference]
     print("query", query)
+    print("args", args)
     cur.execute(query, args)
     match_recommendations = cur.fetchall()
     print("match recommendations", match_recommendations)
@@ -346,9 +349,9 @@ def get_matches_made_by_me(username):
     query += "JOIN users on inbox.username = users.username "
     query += "WHERE inbox.username = ?"
     cur.execute(query, [username])
-    matches = cur.fetchall()
+    my_made_matches = cur.fetchall()
     con.close()
-    print("my made matches", matches)
-    return matches
+    print("my made matches", my_made_matches)
+    return my_made_matches
 
 
